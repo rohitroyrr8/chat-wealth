@@ -12,9 +12,10 @@ import {
 
 interface SidebarProps {
   onNewChat: () => void;
+  onSettingsClick: () => void;
 }
 
-const Sidebar = ({ onNewChat }: SidebarProps) => {
+const Sidebar = ({ onNewChat, onSettingsClick }: SidebarProps) => {
   const [activeChat, setActiveChat] = useState<string | null>(null);
 
   const savedChats = [
@@ -75,7 +76,10 @@ const Sidebar = ({ onNewChat }: SidebarProps) => {
               <LayoutDashboard className="w-4 h-4 text-sidebar-primary" />
               <span className="text-sm text-sidebar-foreground">Dashboard</span>
             </button>
-            <button className="w-full text-left p-3 rounded-lg transition-colors flex items-center gap-3 hover:bg-sidebar-accent">
+            <button 
+              onClick={onSettingsClick}
+              className="w-full text-left p-3 rounded-lg transition-colors flex items-center gap-3 hover:bg-sidebar-accent"
+            >
               <Settings className="w-4 h-4 text-muted-foreground" />
               <span className="text-sm text-sidebar-foreground">Settings</span>
             </button>
