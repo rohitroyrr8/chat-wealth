@@ -1,9 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useTheme } from "@/components/ui/theme-provider";
+import {
+  Command,
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
 import { 
   MessageCircle, 
   LayoutDashboard, 
@@ -17,7 +26,9 @@ import {
   LogOut,
   Compass,
   PanelLeft,
-  PanelLeftOpen
+  PanelLeftOpen,
+  Search,
+  X
 } from "lucide-react";
 
 interface SidebarProps {
@@ -32,6 +43,20 @@ interface SidebarProps {
 const Sidebar = ({ onNewChat, onSettingsClick, onChatSelect, activeChatTitle, onBackToDashboard, onExploreClick }: SidebarProps) => {
   const { theme, setTheme } = useTheme();
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+
+  // Handle cmd+k keyboard shortcut
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setSearchOpen(true);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   const savedChats = [
     "Investment Strategy",
@@ -118,9 +143,25 @@ const Sidebar = ({ onNewChat, onSettingsClick, onChatSelect, activeChatTitle, on
       <div className={`flex-1 ${isCollapsed ? 'px-2' : 'p-4'}`}>
         {!isCollapsed && (
           <div className="mb-6">
-            <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">
-              SAVED CHATS
-            </h3>
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                SAVED CHATS
+              </h3>
+            </div>
+            
+            {/* Search Button */}
+            <button
+              onClick={() => setSearchOpen(true)}
+              className="w-full text-left p-3 rounded-lg transition-colors flex items-center gap-3 hover:bg-sidebar-accent mb-3 border border-border"
+            >
+              <Search className="w-4 h-4 text-muted-foreground" />
+              <span className="text-sm text-muted-foreground">Search chats</span>
+              <div className="ml-auto flex items-center gap-1 text-xs text-muted-foreground bg-muted px-2 py-1 rounded">
+                <span>⌘</span>
+                <span>K</span>
+              </div>
+            </button>
+            
             <div className="space-y-1">
               {savedChats.map((chat) => (
                 <button
@@ -141,6 +182,20 @@ const Sidebar = ({ onNewChat, onSettingsClick, onChatSelect, activeChatTitle, on
         {/* Collapsed Saved Chats - Just Icons */}
         {isCollapsed && (
           <div className="mb-4 space-y-1">
+            {/* Search Button - Collapsed */}
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  onClick={() => setSearchOpen(true)}
+                  className="w-full p-3 rounded-lg transition-colors flex items-center justify-center hover:bg-sidebar-accent border border-border"
+                >
+                  <Search className="w-4 h-4 text-muted-foreground" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent side="right">
+                <p>Search chats (⌘K)</p>
+              </TooltipContent>
+            </Tooltip>
             {savedChats.map((chat) => (
               <Tooltip key={chat}>
                 <TooltipTrigger asChild>
@@ -376,6 +431,42 @@ const Sidebar = ({ onNewChat, onSettingsClick, onChatSelect, activeChatTitle, on
           </PopoverContent>
         </Popover>
       </div>
+
+      {/* Search Dialog */}
+      <CommandDialog open={searchOpen} onOpenChange={setSearchOpen}>
+        <div className="flex items-center border-b px-3">
+          <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
+          <CommandInput placeholder="Search chats..." className="flex-1" />
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setSearchOpen(false)}
+            className="ml-2 h-6 w-6 p-0 hover:bg-muted"
+          >
+            <X className="h-3 w-3" />
+          </Button>
+        </div>
+        <CommandList className="max-h-[300px] overflow-y-auto p-2">
+          <CommandEmpty className="py-6 text-center text-sm text-muted-foreground">
+            No chats found.
+          </CommandEmpty>
+          <CommandGroup>
+            {savedChats.map((chat) => (
+              <CommandItem
+                key={chat}
+                onSelect={() => {
+                  onChatSelect(chat);
+                  setSearchOpen(false);
+                }}
+                className="flex items-center gap-3 px-2 py-3 cursor-pointer"
+              >
+                <MessageCircle className="w-4 h-4 text-muted-foreground" />
+                <span className="text-sm">{chat}</span>
+              </CommandItem>
+            ))}
+          </CommandGroup>
+        </CommandList>
+      </CommandDialog>
     </div>
   );
 };
