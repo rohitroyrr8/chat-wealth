@@ -160,6 +160,36 @@ const Sidebar = ({ onNewChat, onSettingsClick, onChatSelect, activeChatTitle, on
                 </div>
               </div> */}
 
+              <div className="space-y-1">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={onSettingsClick}
+                  className="w-full justify-start"
+                >
+                  <Settings className="h-4 w-4 mr-2" />
+                  Settings
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => console.log("Help & Support clicked")}
+                  className="w-full justify-start"
+                >
+                  <HelpCircle className="h-4 w-4 mr-2" />
+                  Help & Support
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => console.log("Share Feedback clicked")}
+                  className="w-full justify-start"
+                >
+                  <MessageCircle className="h-4 w-4 mr-2" />
+                  Share Feedback
+                </Button>
+              </div>
+
               <div className="pt-2 border-t">
                 <Button
                   variant="ghost"
