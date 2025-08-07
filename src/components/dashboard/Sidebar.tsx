@@ -112,7 +112,7 @@ const Sidebar = ({ onNewChat, onSettingsClick }: SidebarProps) => {
               </div>
             </button>
           </PopoverTrigger>
-          <PopoverContent className="w-64 p-0 mr-4" side="right" align="end">
+          <PopoverContent className="w-64 p-0 mb-4" side="top" align="end">
             <div className="p-4 space-y-4">
               <div className="space-y-1">
                 <p className="text-sm font-medium">Rohit Roy</p>
