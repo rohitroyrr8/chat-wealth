@@ -1,28 +1,28 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Sidebar from "@/components/dashboard/Sidebar";
 import MainContent from "@/components/dashboard/MainContent";
 import RightSidebar from "@/components/dashboard/RightSidebar";
 import SettingsModal from "@/components/dashboard/SettingsModal";
-import ChatInterface from "@/components/dashboard/ChatInterface";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [currentView, setCurrentView] = useState<"dashboard" | "chat">("dashboard");
-  const [activeChatTitle, setActiveChatTitle] = useState<string>("");
 
   const handleNewChat = () => {
-    setCurrentView("chat");
-    setActiveChatTitle("New Chat");
+    // Generate a new chat ID and navigate to it
+    const newChatId = `new-chat-${Date.now()}`;
+    navigate(`/chat/${newChatId}`);
   };
 
   const handleChatSelect = (chatTitle: string) => {
-    setCurrentView("chat");
-    setActiveChatTitle(chatTitle);
+    // Convert chat title to ID format for URL
+    const chatId = chatTitle.toLowerCase().replace(/\s+/g, "-");
+    navigate(`/chat/${chatId}`);
   };
 
   const handleBackToDashboard = () => {
-    setCurrentView("dashboard");
-    setActiveChatTitle("");
+    // Already on dashboard, no action needed
   };
 
   return (
@@ -31,10 +31,10 @@ const Dashboard = () => {
         onNewChat={handleNewChat} 
         onSettingsClick={() => setSettingsOpen(true)}
         onChatSelect={handleChatSelect}
-        activeChatTitle={activeChatTitle}
+        activeChatTitle=""
         onBackToDashboard={handleBackToDashboard}
       />
-      {currentView === "dashboard" ? <MainContent /> : <ChatInterface chatTitle={activeChatTitle} />}
+      <MainContent />
       <RightSidebar />
       <SettingsModal open={settingsOpen} onOpenChange={setSettingsOpen} />
     </div>
