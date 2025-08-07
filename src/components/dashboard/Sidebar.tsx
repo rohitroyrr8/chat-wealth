@@ -1,13 +1,18 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { useTheme } from "@/components/ui/theme-provider";
 import { 
   MessageCircle, 
   LayoutDashboard, 
   Settings, 
   HelpCircle,
   Plus,
-  Sparkles
+  Sparkles,
+  Monitor,
+  Moon,
+  Sun
 } from "lucide-react";
 
 interface SidebarProps {
@@ -17,6 +22,7 @@ interface SidebarProps {
 
 const Sidebar = ({ onNewChat, onSettingsClick }: SidebarProps) => {
   const [activeChat, setActiveChat] = useState<string | null>(null);
+  const { theme, setTheme } = useTheme();
 
   const savedChats = [
     "Investment Strategy",
@@ -93,13 +99,61 @@ const Sidebar = ({ onNewChat, onSettingsClick }: SidebarProps) => {
 
       {/* User Profile */}
       <div className="p-4">
-        <div className="flex items-center gap-3">
-          <Avatar className="w-10 h-10">
-            <AvatarImage src="" />
-            <AvatarFallback className="bg-primary text-primary-foreground">JD</AvatarFallback>
-          </Avatar>
-          <span className="text-sm font-medium text-sidebar-foreground">John Doe</span>
-        </div>
+        <Popover>
+          <PopoverTrigger asChild>
+            <button className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-sidebar-accent transition-colors">
+              <Avatar className="w-10 h-10">
+                <AvatarImage src="" />
+                <AvatarFallback className="bg-primary text-primary-foreground">RR</AvatarFallback>
+              </Avatar>
+              <div className="flex-1 text-left">
+                <div className="text-sm font-medium text-sidebar-foreground">Rohit Roy</div>
+                <div className="text-xs text-muted-foreground">roy@example.com</div>
+              </div>
+            </button>
+          </PopoverTrigger>
+          <PopoverContent className="w-64 p-0 mr-4" side="right" align="end">
+            <div className="p-4 space-y-4">
+              <div className="space-y-1">
+                <p className="text-sm font-medium">Rohit Roy</p>
+                <p className="text-xs text-muted-foreground">roy@example.com</p>
+              </div>
+              
+              <div className="space-y-2">
+                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Theme</p>
+                <div className="grid grid-cols-3 gap-1">
+                  <Button
+                    variant={theme === "light" ? "default" : "ghost"}
+                    size="sm"
+                    onClick={() => setTheme("light")}
+                    className="h-8 px-2"
+                  >
+                    <Sun className="h-3 w-3 mr-1" />
+                    Light
+                  </Button>
+                  <Button
+                    variant={theme === "dark" ? "default" : "ghost"}
+                    size="sm"
+                    onClick={() => setTheme("dark")}
+                    className="h-8 px-2"
+                  >
+                    <Moon className="h-3 w-3 mr-1" />
+                    Dark
+                  </Button>
+                  <Button
+                    variant={theme === "system" ? "default" : "ghost"}
+                    size="sm"
+                    onClick={() => setTheme("system")}
+                    className="h-8 px-2"
+                  >
+                    <Monitor className="h-3 w-3 mr-1" />
+                    Auto
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </PopoverContent>
+        </Popover>
       </div>
     </div>
   );

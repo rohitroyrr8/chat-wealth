@@ -47,14 +47,6 @@ const SettingsModal = ({ open, onOpenChange }: SettingsModalProps) => {
     { name: "Teams", icon: MessageSquare, connected: false },
   ];
 
-  const tabs = [
-    { id: "general", label: "General", icon: SettingsIcon },
-    { id: "notification", label: "Notification", icon: Bell },
-    { id: "connector", label: "Connector", icon: Zap },
-    { id: "security", label: "Security", icon: Shield },
-    { id: "account", label: "Account", icon: User },
-    { id: "billing", label: "Billing", icon: FileText },
-  ];
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
