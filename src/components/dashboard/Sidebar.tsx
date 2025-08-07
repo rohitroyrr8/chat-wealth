@@ -164,6 +164,15 @@ const Sidebar = ({ onNewChat, onSettingsClick, onChatSelect, activeChatTitle, on
                 <Button
                   variant="ghost"
                   size="sm"
+                  onClick={() => console.log("Upgrade Plan clicked")}
+                  className="w-full justify-start"
+                >
+                  <Sparkles className="h-4 w-4 mr-2" />
+                  Upgrade Plan
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
                   onClick={onSettingsClick}
                   className="w-full justify-start"
                 >
