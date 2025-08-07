@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Send, Mic, Paperclip, Globe, Copy, Share, Volume2 } from "lucide-react";
 
 interface Message {
@@ -62,36 +61,26 @@ const ChatInterface = ({ chatTitle }: ChatInterfaceProps) => {
           {messages.map((msg) => (
             <div key={msg.id} className="space-y-4">
               {msg.role === "user" ? (
-                <div className="flex gap-4">
-                  <Avatar className="w-8 h-8 flex-shrink-0">
-                    <AvatarFallback className="bg-primary text-primary-foreground text-sm">U</AvatarFallback>
-                  </Avatar>
-                  <div className="flex-1">
-                    <div className="bg-muted/50 rounded-2xl px-4 py-3 inline-block max-w-2xl">
-                      <p className="text-foreground whitespace-pre-wrap">{msg.content}</p>
-                    </div>
+                <div className="flex justify-end">
+                  <div className="bg-muted/50 rounded-2xl px-4 py-3 max-w-2xl">
+                    <p className="text-foreground whitespace-pre-wrap">{msg.content}</p>
                   </div>
                 </div>
               ) : (
-                <div className="flex gap-4">
-                  <Avatar className="w-8 h-8 flex-shrink-0">
-                    <AvatarFallback className="bg-primary text-primary-foreground text-sm">AI</AvatarFallback>
-                  </Avatar>
-                  <div className="flex-1 space-y-3">
-                    <div className="prose prose-sm max-w-none">
-                      <p className="text-foreground whitespace-pre-wrap leading-relaxed">{msg.content}</p>
-                    </div>
-                    <div className="flex gap-2">
-                      <Button variant="ghost" size="sm" className="h-8 px-2">
-                        <Copy className="w-4 h-4" />
-                      </Button>
-                      <Button variant="ghost" size="sm" className="h-8 px-2">
-                        <Share className="w-4 h-4" />
-                      </Button>
-                      <Button variant="ghost" size="sm" className="h-8 px-2">
-                        <Volume2 className="w-4 h-4" />
-                      </Button>
-                    </div>
+                <div className="space-y-3">
+                  <div className="prose prose-sm max-w-none">
+                    <p className="text-foreground whitespace-pre-wrap leading-relaxed">{msg.content}</p>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button variant="ghost" size="sm" className="h-8 px-2">
+                      <Copy className="w-4 h-4" />
+                    </Button>
+                    <Button variant="ghost" size="sm" className="h-8 px-2">
+                      <Share className="w-4 h-4" />
+                    </Button>
+                    <Button variant="ghost" size="sm" className="h-8 px-2">
+                      <Volume2 className="w-4 h-4" />
+                    </Button>
                   </div>
                 </div>
               )}
