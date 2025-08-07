@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import EmailVerification from "./pages/EmailVerification";
+import Explore from "./pages/Explore";
 import Dashboard from "./pages/Dashboard";
 import Chat from "./pages/Chat";
 import NotFound from "./pages/NotFound";
@@ -24,6 +25,7 @@ const App = () => (
             <Route path="/" element={<Login />} />
             <Route path="/login" element={<Login />} />
             <Route path="/verify-email" element={<EmailVerification />} />
+            <Route path="/explore" element={<Explore />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/chat/:chatId" element={<Chat />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
