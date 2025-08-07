@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Send, Mic, Paperclip, Globe, Copy, Share, Volume2 } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Send, Mic, Paperclip, Globe, Copy, Share, Volume2, MessageCircle, Bot } from "lucide-react";
 
 interface Message {
   id: string;
@@ -17,6 +18,7 @@ interface ChatInterfaceProps {
 
 const ChatInterface = ({ chatTitle }: ChatInterfaceProps) => {
   const [message, setMessage] = useState("");
+  const [mode, setMode] = useState<"chat" | "agent">("chat");
   const [messages] = useState<Message[]>([
     {
       id: "1",
@@ -50,8 +52,33 @@ const ChatInterface = ({ chatTitle }: ChatInterfaceProps) => {
     <div className="flex-1 bg-background flex flex-col h-screen">
       {/* Header */}
       <div className="p-6 border-b border-border">
-        <div className="flex items-center justify-center">
-          <h1 className="text-2xl font-semibold text-foreground">{chatTitle}</h1>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <h1 className="text-2xl font-semibold text-foreground">{chatTitle}</h1>
+            <div className="flex items-center bg-muted rounded-lg p-1 gap-1">
+              <Button
+                variant={mode === "chat" ? "default" : "ghost"}
+                size="sm"
+                onClick={() => setMode("chat")}
+                className="h-7 px-3 flex items-center gap-1.5"
+              >
+                <MessageCircle className="w-3.5 h-3.5" />
+                Chat
+              </Button>
+              <Button
+                variant={mode === "agent" ? "default" : "ghost"}
+                size="sm"
+                onClick={() => setMode("agent")}
+                className="h-7 px-3 flex items-center gap-1.5"
+              >
+                <Bot className="w-3.5 h-3.5" />
+                Agent
+              </Button>
+            </div>
+          </div>
+          <Badge variant="secondary" className="text-xs">
+            {mode === "chat" ? "Text-based conversation" : "Voice-enabled AI agent"}
+          </Badge>
         </div>
       </div>
 
@@ -97,7 +124,7 @@ const ChatInterface = ({ chatTitle }: ChatInterfaceProps) => {
               <Input
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                placeholder="Ask anything about your finances..."
+                placeholder={mode === "chat" ? "Ask anything about your finances..." : "Press and hold to speak, or type your message..."}
                 className="flex-1 border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground"
               />
               <div className="flex items-center gap-2">
@@ -107,7 +134,12 @@ const ChatInterface = ({ chatTitle }: ChatInterfaceProps) => {
                 <Button type="button" variant="ghost" size="sm" className="h-8 w-8 p-0">
                   <Globe className="w-4 h-4" />
                 </Button>
-                <Button type="button" variant="ghost" size="sm" className="h-8 w-8 p-0">
+                <Button 
+                  type="button" 
+                  variant={mode === "agent" ? "default" : "ghost"} 
+                  size="sm" 
+                  className="h-8 w-8 p-0"
+                >
                   <Mic className="w-4 h-4" />
                 </Button>
                 <Button 
