@@ -14,7 +14,9 @@ import {
   Moon,
   Sun,
   LogOut,
-  Compass
+  Compass,
+  PanelLeft,
+  PanelLeftOpen
 } from "lucide-react";
 
 interface SidebarProps {
@@ -28,6 +30,7 @@ interface SidebarProps {
 
 const Sidebar = ({ onNewChat, onSettingsClick, onChatSelect, activeChatTitle, onBackToDashboard, onExploreClick }: SidebarProps) => {
   const { theme, setTheme } = useTheme();
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const savedChats = [
     "Investment Strategy",
@@ -36,97 +39,155 @@ const Sidebar = ({ onNewChat, onSettingsClick, onChatSelect, activeChatTitle, on
   ];
 
   return (
-    <div className="w-64 bg-sidebar h-screen flex flex-col">
-      {/* Header */}
-      <div className="p-6">
-        <div className="flex items-center gap-2 mb-6">
-          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-            <Sparkles className="w-4 h-4 text-primary-foreground" />
-          </div>
-          <span className="text-xl font-bold text-sidebar-foreground">FinAI</span>
-        </div>
-        
-        <Button 
-          onClick={onNewChat}
-          className="w-full bg-primary text-primary-foreground hover:bg-primary/90 h-12 rounded-xl"
+    <div className={`${isCollapsed ? 'w-16' : 'w-64'} bg-sidebar h-screen flex flex-col transition-all duration-300 ease-in-out`}>
+      {/* Toggle Button */}
+      <div className="p-4">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          className="w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent h-10"
         >
-          <Plus className="w-4 h-4 mr-2" />
-          New Chat
+          {isCollapsed ? <PanelLeftOpen className="w-4 h-4" /> : <PanelLeft className="w-4 h-4" />}
+          {!isCollapsed && <span className="ml-2">Close sidebar</span>}
         </Button>
       </div>
 
+      {/* Header */}
+      {!isCollapsed && (
+        <div className="px-6 pb-6">
+          <div className="flex items-center gap-2 mb-6">
+            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+              <Sparkles className="w-4 h-4 text-primary-foreground" />
+            </div>
+            <span className="text-xl font-bold text-sidebar-foreground">FinAI</span>
+          </div>
+          
+          <Button 
+            onClick={onNewChat}
+            className="w-full bg-primary text-primary-foreground hover:bg-primary/90 h-12 rounded-xl"
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            New Chat
+          </Button>
+        </div>
+      )}
+
+      {/* Collapsed Header - Just the New Chat Button */}
+      {isCollapsed && (
+        <div className="px-2 pb-4">
+          <Button 
+            onClick={onNewChat}
+            size="sm"
+            className="w-full bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-2"
+          >
+            <Plus className="w-4 h-4" />
+          </Button>
+        </div>
+      )}
+
       {/* Saved Chats */}
-      <div className="flex-1 p-4">
-        <div className="mb-6">
-          <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">
-            SAVED CHATS
-          </h3>
-          <div className="space-y-1">
+      <div className={`flex-1 ${isCollapsed ? 'px-2' : 'p-4'}`}>
+        {!isCollapsed && (
+          <div className="mb-6">
+            <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">
+              SAVED CHATS
+            </h3>
+            <div className="space-y-1">
+              {savedChats.map((chat) => (
+                <button
+                  key={chat}
+                  onClick={() => onChatSelect(chat)}
+                  className={`w-full text-left p-3 rounded-lg transition-colors flex items-center gap-3 hover:bg-sidebar-accent ${
+                    activeChatTitle === chat ? 'bg-sidebar-accent' : ''
+                  }`}
+                >
+                  <MessageCircle className="w-4 h-4 text-muted-foreground" />
+                  <span className="text-sm text-sidebar-foreground">{chat}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Collapsed Saved Chats - Just Icons */}
+        {isCollapsed && (
+          <div className="mb-4 space-y-1">
             {savedChats.map((chat) => (
               <button
                 key={chat}
                 onClick={() => onChatSelect(chat)}
-                className={`w-full text-left p-3 rounded-lg transition-colors flex items-center gap-3 hover:bg-sidebar-accent ${
+                className={`w-full p-3 rounded-lg transition-colors flex items-center justify-center hover:bg-sidebar-accent ${
                   activeChatTitle === chat ? 'bg-sidebar-accent' : ''
                 }`}
+                title={chat}
               >
                 <MessageCircle className="w-4 h-4 text-muted-foreground" />
-                <span className="text-sm text-sidebar-foreground">{chat}</span>
               </button>
             ))}
           </div>
-        </div>
+        )}
 
         {/* Tools */}
         <div>
-          <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">
-            TOOLS
-          </h3>
+          {!isCollapsed && (
+            <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">
+              TOOLS
+            </h3>
+          )}
           <div className="space-y-1">
             <button 
               onClick={onExploreClick}
-              className="w-full text-left p-3 rounded-lg transition-colors flex items-center gap-3 hover:bg-sidebar-accent"
+              className={`w-full ${isCollapsed ? 'p-3 justify-center' : 'text-left p-3'} rounded-lg transition-colors flex items-center gap-3 hover:bg-sidebar-accent`}
+              title={isCollapsed ? "Explore" : ""}
             >
               <Compass className="w-4 h-4 text-sidebar-primary" />
-              <span className="text-sm text-sidebar-foreground">Explore</span>
+              {!isCollapsed && <span className="text-sm text-sidebar-foreground">Explore</span>}
             </button>
             <button 
               onClick={onBackToDashboard}
-              className={`w-full text-left p-3 rounded-lg transition-colors flex items-center gap-3 ${
+              className={`w-full ${isCollapsed ? 'p-3 justify-center' : 'text-left p-3'} rounded-lg transition-colors flex items-center gap-3 ${
                 !activeChatTitle ? 'bg-sidebar-accent' : 'hover:bg-sidebar-accent'
               }`}
+              title={isCollapsed ? "Dashboard" : ""}
             >
               <LayoutDashboard className="w-4 h-4 text-sidebar-primary" />
-              <span className="text-sm text-sidebar-foreground">Dashboard</span>
+              {!isCollapsed && <span className="text-sm text-sidebar-foreground">Dashboard</span>}
             </button>
             <button 
               onClick={onSettingsClick}
-              className="w-full text-left p-3 rounded-lg transition-colors flex items-center gap-3 hover:bg-sidebar-accent"
+              className={`w-full ${isCollapsed ? 'p-3 justify-center' : 'text-left p-3'} rounded-lg transition-colors flex items-center gap-3 hover:bg-sidebar-accent`}
+              title={isCollapsed ? "Settings" : ""}
             >
               <Settings className="w-4 h-4 text-muted-foreground" />
-              <span className="text-sm text-sidebar-foreground">Settings</span>
+              {!isCollapsed && <span className="text-sm text-sidebar-foreground">Settings</span>}
             </button>
-            <button className="w-full text-left p-3 rounded-lg transition-colors flex items-center gap-3 hover:bg-sidebar-accent">
+            <button 
+              className={`w-full ${isCollapsed ? 'p-3 justify-center' : 'text-left p-3'} rounded-lg transition-colors flex items-center gap-3 hover:bg-sidebar-accent`}
+              title={isCollapsed ? "Help & Support" : ""}
+            >
               <HelpCircle className="w-4 h-4 text-muted-foreground" />
-              <span className="text-sm text-sidebar-foreground">Help & Support</span>
+              {!isCollapsed && <span className="text-sm text-sidebar-foreground">Help & Support</span>}
             </button>
           </div>
         </div>
       </div>
 
       {/* User Profile */}
-      <div className="p-4">
+      <div className={`${isCollapsed ? 'p-2' : 'p-4'}`}>
         <Popover>
           <PopoverTrigger asChild>
-            <button className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-sidebar-accent transition-colors">
+            <button className={`w-full flex items-center ${isCollapsed ? 'justify-center p-2' : 'gap-3 p-2'} rounded-lg hover:bg-sidebar-accent transition-colors`}>
               <Avatar className="w-10 h-10">
                 <AvatarImage src="" />
                 <AvatarFallback className="bg-primary text-primary-foreground">RR</AvatarFallback>
               </Avatar>
-              <div className="flex-1 text-left">
-                <div className="text-sm font-medium text-sidebar-foreground">Rohit Roy</div>
-                <div className="text-xs text-muted-foreground">roy@example.com</div>
-              </div>
+              {!isCollapsed && (
+                <div className="flex-1 text-left">
+                  <div className="text-sm font-medium text-sidebar-foreground">Rohit Roy</div>
+                  <div className="text-xs text-muted-foreground">roy@example.com</div>
+                </div>
+              )}
             </button>
           </PopoverTrigger>
           <PopoverContent className="w-64 p-0 mb-4 border-0 shadow-lg" side="top" align="end">
