@@ -50,10 +50,10 @@ const SettingsModal = ({ open, onOpenChange }: SettingsModalProps) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl h-[70vh] p-0 overflow-hidden">
+      <DialogContent className="max-w-4xl h-[80vh] p-0 overflow-hidden">
         <div className="flex h-full">
           {/* Left Sidebar */}
-          <div className="w-64 bg-muted/30 p-4">
+          <div className="w-64 bg-muted/30 p-4 flex-shrink-0">
             <DialogHeader className="mb-6">
               <div className="flex items-center justify-between">
                 <h1 className="text-lg font-semibold text-foreground">Settings</h1>
@@ -90,7 +90,8 @@ const SettingsModal = ({ open, onOpenChange }: SettingsModalProps) => {
           </div>
 
           {/* Main Content */}
-          <div className="flex-1 p-6 overflow-y-auto max-h-full">
+          <div className="flex-1 overflow-y-auto">
+            <div className="p-6 h-full">
             {activeTab === "general" && (
               <div className="max-w-2xl space-y-8">
                 {/* Theme Section */}
@@ -400,6 +401,7 @@ const SettingsModal = ({ open, onOpenChange }: SettingsModalProps) => {
                 </Card>
               </div>
             )}
+            </div>
           </div>
         </div>
       </DialogContent>
