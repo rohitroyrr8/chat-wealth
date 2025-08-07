@@ -16,7 +16,7 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <Card className="w-full max-w-md p-8 bg-card border-border shadow-elevated">
+      <Card className="w-full max-w-md p-8 bg-card shadow-elevated">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-foreground mb-2">Welcome to FinAI</h1>
           <p className="text-muted-foreground">Sign in or create an account</p>

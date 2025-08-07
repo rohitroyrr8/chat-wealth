@@ -5,7 +5,7 @@ const RightSidebar = () => {
   return (
     <div className="w-80 bg-background border-l border-border p-6 space-y-6">
       {/* Quick Insights */}
-      <Card className="p-6 bg-gradient-card border-border shadow-card">
+      <Card className="p-6 bg-gradient-card shadow-card">
         <h3 className="text-lg font-semibold text-foreground mb-3">Quick Insights</h3>
         <p className="text-muted-foreground text-sm">
           Your portfolio is performing well, up 1.2% today. Consider reviewing your risk tolerance.
@@ -13,7 +13,7 @@ const RightSidebar = () => {
       </Card>
 
       {/* Next Steps */}
-      <Card className="p-6 bg-gradient-card border-border shadow-card">
+      <Card className="p-6 bg-gradient-card shadow-card">
         <h3 className="text-lg font-semibold text-foreground mb-4">Next Steps</h3>
         <div className="space-y-3">
           <div className="flex items-center gap-3">
@@ -28,7 +28,7 @@ const RightSidebar = () => {
       </Card>
 
       {/* Related Articles */}
-      <Card className="p-6 bg-gradient-card border-border shadow-card">
+      <Card className="p-6 bg-gradient-card shadow-card">
         <h3 className="text-lg font-semibold text-foreground mb-4">Related Articles</h3>
         <div className="space-y-4">
           <div>
