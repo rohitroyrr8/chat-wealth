@@ -12,7 +12,8 @@ import {
   Sparkles,
   Monitor,
   Moon,
-  Sun
+  Sun,
+  LogOut
 } from "lucide-react";
 
 interface SidebarProps {
@@ -150,6 +151,18 @@ const Sidebar = ({ onNewChat, onSettingsClick }: SidebarProps) => {
                     Auto
                   </Button>
                 </div>
+              </div>
+
+              <div className="pt-2 border-t">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => console.log("Logout clicked")}
+                  className="w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/10"
+                >
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Logout
+                </Button>
               </div>
             </div>
           </PopoverContent>
