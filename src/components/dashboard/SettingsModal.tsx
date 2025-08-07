@@ -190,7 +190,7 @@ const SettingsModal = ({ open, onOpenChange }: SettingsModalProps) => {
             )}
 
             {activeTab === "account" && (
-              <div className="max-w-2xl space-y-8">
+              <div className="max-w-2xl space-y-8 pb-6">
                 {/* Current Plan */}
                 <Card>
                   <CardHeader>
@@ -228,14 +228,22 @@ const SettingsModal = ({ open, onOpenChange }: SettingsModalProps) => {
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="space-y-2">
-                      <Label htmlFor="email">Email</Label>
-                      <Input id="email" value="john.doe@example.com" disabled className="bg-muted" />
-                    </div>
-                    <div className="space-y-2">
                       <Label htmlFor="name">Full Name</Label>
                       <Input id="name" defaultValue="John Doe" />
                     </div>
-                    <Button variant="outline">Change Password</Button>
+                    <div className="space-y-2">
+                      <Label htmlFor="email">Email</Label>
+                      <Input id="email" value="john.doe@example.com" disabled className="bg-muted" />
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Switch id="email-feedback" defaultChecked />
+                      <Label htmlFor="email-feedback" className="text-sm">
+                        Receive email notifications for feedback sharing
+                      </Label>
+                    </div>
+                    <div className="pt-4">
+                      <Button variant="outline">Change Password</Button>
+                    </div>
                   </CardContent>
                 </Card>
 
@@ -255,15 +263,15 @@ const SettingsModal = ({ open, onOpenChange }: SettingsModalProps) => {
             )}
 
             {activeTab === "connector" && (
-              <div className="max-w-4xl">
-                <div className="mb-6">
+              <div className="max-w-4xl space-y-6">
+                <div>
                   <h3 className="text-lg font-medium text-foreground mb-2">Connectors</h3>
                   <p className="text-sm text-muted-foreground">
                     Connect your favorite apps so FinAI can access their information, based on what you're authorized to view.
                   </p>
                 </div>
                 
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pb-6">
                   {connectors.map((connector) => {
                     const Icon = connector.icon;
                     return (
