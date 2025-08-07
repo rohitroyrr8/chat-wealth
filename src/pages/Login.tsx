@@ -51,30 +51,15 @@ const Login = () => {
               required
             />
           </div>
-          <div>
-            <Input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="h-12 bg-input text-foreground placeholder:text-muted-foreground"
-              required
-            />
-          </div>
+          
           <Button 
             type="submit" 
             className="w-full h-12 bg-gradient-primary text-primary-foreground hover:opacity-90 transition-opacity"
           >
-            Login
+            Continue with email
           </Button>
         </form>
 
-        <p className="text-center mt-6 text-muted-foreground">
-          Don't have an account?{" "}
-          <Link to="/signup" className="text-primary hover:underline">
-            Sign Up
-          </Link>
-        </p>
       </Card>
     </div>
   );
