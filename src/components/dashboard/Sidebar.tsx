@@ -99,7 +99,7 @@ const Sidebar = ({ onNewChat, onSettingsClick }: SidebarProps) => {
       </div>
 
       {/* User Profile */}
-      <div className="p-4 m-2">
+      <div className="p-4">
         <Popover>
           <PopoverTrigger asChild>
             <button className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-sidebar-accent transition-colors">
