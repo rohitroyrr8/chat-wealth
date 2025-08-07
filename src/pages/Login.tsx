@@ -23,17 +23,17 @@ const Login = () => {
         </div>
 
         <div className="space-y-4 mb-6">
-          <Button variant="outline" className="w-full h-12 text-foreground border-border hover:bg-secondary">
+          <Button variant="outline" className="w-full h-12 text-foreground hover:bg-secondary">
             Continue with Google
           </Button>
-          <Button variant="outline" className="w-full h-12 text-foreground border-border hover:bg-secondary">
+          <Button variant="outline" className="w-full h-12 text-foreground hover:bg-secondary">
             Continue with Apple
           </Button>
         </div>
 
         <div className="relative mb-6">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-border"></div>
+            <div className="w-full"></div>
           </div>
           <div className="relative flex justify-center text-sm">
             <span className="bg-card px-4 text-muted-foreground">OR</span>
@@ -47,7 +47,7 @@ const Login = () => {
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="h-12 bg-input border-border text-foreground placeholder:text-muted-foreground"
+              className="h-12 bg-input text-foreground placeholder:text-muted-foreground"
               required
             />
           </div>
@@ -57,7 +57,7 @@ const Login = () => {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="h-12 bg-input border-border text-foreground placeholder:text-muted-foreground"
+              className="h-12 bg-input text-foreground placeholder:text-muted-foreground"
               required
             />
           </div>

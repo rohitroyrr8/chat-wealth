@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 
 const RightSidebar = () => {
   return (
-    <div className="w-80 bg-background border-l border-border p-6 space-y-6">
+    <div className="w-80 bg-background p-6 space-y-6">
       {/* Quick Insights */}
       <Card className="p-6 bg-gradient-card shadow-card">
         <h3 className="text-lg font-semibold text-foreground mb-3">Quick Insights</h3>

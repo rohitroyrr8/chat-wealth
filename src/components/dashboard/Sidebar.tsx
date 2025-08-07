@@ -24,9 +24,9 @@ const Sidebar = ({ onNewChat }: SidebarProps) => {
   ];
 
   return (
-    <div className="w-64 bg-sidebar h-screen flex flex-col border-r border-sidebar-border">
+    <div className="w-64 bg-sidebar h-screen flex flex-col">
       {/* Header */}
-      <div className="p-6 border-b border-sidebar-border">
+      <div className="p-6">
         <div className="flex items-center gap-2 mb-6">
           <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
             <Sparkles className="w-4 h-4 text-white" />
@@ -88,7 +88,7 @@ const Sidebar = ({ onNewChat }: SidebarProps) => {
       </div>
 
       {/* User Profile */}
-      <div className="p-4 border-t border-sidebar-border">
+      <div className="p-4">
         <div className="flex items-center gap-3">
           <Avatar className="w-10 h-10">
             <AvatarImage src="" />

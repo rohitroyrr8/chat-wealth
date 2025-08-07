@@ -6,7 +6,7 @@ const MainContent = () => {
   return (
     <div className="flex-1 bg-background">
       {/* Header */}
-      <div className="border-b border-border p-6">
+      <div className="p-6">
         <h1 className="text-2xl font-semibold text-foreground">Dashboard</h1>
       </div>
 
@@ -97,7 +97,7 @@ const MainContent = () => {
                 "Create Will & Estate Plan"
               ].map((item, index) => (
                 <div key={item} className="flex items-center gap-3">
-                  <div className={`w-4 h-4 rounded border ${index < 2 ? 'bg-success border-success' : 'border-border'}`}></div>
+                  <div className={`w-4 h-4 rounded ${index < 2 ? 'bg-success' : 'bg-muted'}`}></div>
                   <span className="text-foreground text-sm">{item}</span>
                 </div>
               ))}
