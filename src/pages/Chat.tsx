@@ -41,6 +41,10 @@ const Chat = () => {
     navigate("/dashboard");
   };
 
+  const handleExploreClick = () => {
+    navigate("/explore");
+  };
+
   if (!chatId) {
     return null;
   }
@@ -53,6 +57,7 @@ const Chat = () => {
         onChatSelect={handleChatSelect}
         activeChatTitle={chatTitle}
         onBackToDashboard={handleBackToDashboard}
+        onExploreClick={handleExploreClick}
       />
       
       <div className="flex-1">

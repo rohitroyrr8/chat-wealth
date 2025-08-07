@@ -13,7 +13,8 @@ import {
   Monitor,
   Moon,
   Sun,
-  LogOut
+  LogOut,
+  Compass
 } from "lucide-react";
 
 interface SidebarProps {
@@ -22,9 +23,10 @@ interface SidebarProps {
   onChatSelect: (chatTitle: string) => void;
   activeChatTitle: string;
   onBackToDashboard: () => void;
+  onExploreClick?: () => void;
 }
 
-const Sidebar = ({ onNewChat, onSettingsClick, onChatSelect, activeChatTitle, onBackToDashboard }: SidebarProps) => {
+const Sidebar = ({ onNewChat, onSettingsClick, onChatSelect, activeChatTitle, onBackToDashboard, onExploreClick }: SidebarProps) => {
   const { theme, setTheme } = useTheme();
 
   const savedChats = [
@@ -81,6 +83,13 @@ const Sidebar = ({ onNewChat, onSettingsClick, onChatSelect, activeChatTitle, on
             TOOLS
           </h3>
           <div className="space-y-1">
+            <button 
+              onClick={onExploreClick}
+              className="w-full text-left p-3 rounded-lg transition-colors flex items-center gap-3 hover:bg-sidebar-accent"
+            >
+              <Compass className="w-4 h-4 text-sidebar-primary" />
+              <span className="text-sm text-sidebar-foreground">Explore</span>
+            </button>
             <button 
               onClick={onBackToDashboard}
               className={`w-full text-left p-3 rounded-lg transition-colors flex items-center gap-3 ${

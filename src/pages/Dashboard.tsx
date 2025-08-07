@@ -25,6 +25,10 @@ const Dashboard = () => {
     // Already on dashboard, no action needed
   };
 
+  const handleExploreClick = () => {
+    navigate("/explore");
+  };
+
   return (
     <div className="flex h-screen bg-background">
       <Sidebar 
@@ -33,6 +37,7 @@ const Dashboard = () => {
         onChatSelect={handleChatSelect}
         activeChatTitle=""
         onBackToDashboard={handleBackToDashboard}
+        onExploreClick={handleExploreClick}
       />
       <MainContent />
       <RightSidebar />
