@@ -99,7 +99,7 @@ const Sidebar = ({ onNewChat, onSettingsClick }: SidebarProps) => {
       </div>
 
       {/* User Profile */}
-      <div className="p-4">
+      <div className="p-4 m-2">
         <Popover>
           <PopoverTrigger asChild>
             <button className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-sidebar-accent transition-colors">
@@ -120,7 +120,7 @@ const Sidebar = ({ onNewChat, onSettingsClick }: SidebarProps) => {
                 <p className="text-xs text-muted-foreground">roy@example.com</p>
               </div>
               
-              <div className="space-y-2">
+              {/* <div className="space-y-2">
                 <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Theme</p>
                 <div className="grid grid-cols-3 gap-1">
                   <Button
@@ -151,7 +151,7 @@ const Sidebar = ({ onNewChat, onSettingsClick }: SidebarProps) => {
                     Auto
                   </Button>
                 </div>
-              </div>
+              </div> */}
 
               <div className="pt-2 border-t">
                 <Button
