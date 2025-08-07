@@ -90,8 +90,8 @@ const SettingsModal = ({ open, onOpenChange }: SettingsModalProps) => {
           </div>
 
           {/* Main Content */}
-          <div className="flex-1 overflow-y-auto">
-            <div className="p-6 h-full">
+          <div className="flex-1 overflow-hidden flex flex-col">
+            <div className="flex-1 overflow-y-scroll p-6">
             {activeTab === "general" && (
               <div className="max-w-2xl space-y-8">
                 {/* Theme Section */}
