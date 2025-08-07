@@ -1,10 +1,13 @@
 import { useState } from "react";
-import { X, Settings as SettingsIcon, Bell, Zap, Shield, User } from "lucide-react";
+import { X, Settings as SettingsIcon, Bell, Zap, Shield, User, Github, Mail, Calendar, FileText, Database, MessageSquare, Cloud, HardDrive } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { useTheme } from "@/components/ui/theme-provider";
 
 interface SettingsModalProps {
@@ -14,7 +17,26 @@ interface SettingsModalProps {
 
 const SettingsModal = ({ open, onOpenChange }: SettingsModalProps) => {
   const [activeTab, setActiveTab] = useState("general");
+  const [mfaEnabled, setMfaEnabled] = useState(false);
   const { theme, setTheme } = useTheme();
+
+  const connectors = [
+    { name: "Box", icon: Database, connected: false },
+    { name: "Canva", icon: FileText, connected: false },
+    { name: "Dropbox", icon: Cloud, connected: true },
+    { name: "GitHub", icon: Github, connected: true },
+    { name: "Gmail", icon: Mail, connected: false },
+    { name: "Google Calendar", icon: Calendar, connected: false },
+    { name: "Google Contacts", icon: MessageSquare, connected: false },
+    { name: "Google Drive", icon: HardDrive, connected: true },
+    { name: "HubSpot", icon: Database, connected: false },
+    { name: "Linear", icon: FileText, connected: false },
+    { name: "Notion", icon: FileText, connected: false },
+    { name: "Outlook Calendar", icon: Calendar, connected: false },
+    { name: "Outlook Email", icon: Mail, connected: false },
+    { name: "SharePoint", icon: Database, connected: false },
+    { name: "Teams", icon: MessageSquare, connected: false },
+  ];
 
   const tabs = [
     { id: "general", label: "General", icon: SettingsIcon },
@@ -165,31 +187,200 @@ const SettingsModal = ({ open, onOpenChange }: SettingsModalProps) => {
               </div>
             )}
 
-            {activeTab === "notification" && (
-              <div className="max-w-2xl">
-                <h3 className="text-lg font-medium text-foreground mb-4">Notification Settings</h3>
-                <p className="text-muted-foreground">Notification settings will be implemented here.</p>
+            {activeTab === "account" && (
+              <div className="max-w-2xl space-y-8">
+                {/* Current Plan */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Your Current Plan</CardTitle>
+                    <CardDescription>
+                      You are currently on the Premium Plan. Enjoy unlimited chats, advanced insights, and priority support.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="bg-muted/50 p-6 rounded-lg space-y-4">
+                      <div className="flex items-center justify-between">
+                        <h4 className="text-lg font-semibold">Premium Plan</h4>
+                        <Badge>Active</Badge>
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        Access to all features, including real-time market data and personalized financial planning.
+                      </p>
+                      <ul className="space-y-2 text-sm">
+                        <li>• Unlimited Chat History</li>
+                        <li>• Advanced Portfolio Analysis</li>
+                        <li>• Priority Customer Support</li>
+                      </ul>
+                      <Button className="mt-4">Manage Plan</Button>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Account Details */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Account Details</CardTitle>
+                    <CardDescription>
+                      Update your personal information and account settings.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="email">Email</Label>
+                      <Input id="email" value="john.doe@example.com" disabled className="bg-muted" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="name">Full Name</Label>
+                      <Input id="name" defaultValue="John Doe" />
+                    </div>
+                    <Button variant="outline">Change Password</Button>
+                  </CardContent>
+                </Card>
+
+                {/* Delete Account */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-destructive">Delete Account</CardTitle>
+                    <CardDescription>
+                      Permanently delete your account and all associated data. This action cannot be undone.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Button variant="destructive">Delete Account</Button>
+                  </CardContent>
+                </Card>
               </div>
             )}
 
             {activeTab === "connector" && (
-              <div className="max-w-2xl">
-                <h3 className="text-lg font-medium text-foreground mb-4">Connector Settings</h3>
-                <p className="text-muted-foreground">Connector settings will be implemented here.</p>
+              <div className="max-w-4xl">
+                <div className="mb-6">
+                  <h3 className="text-lg font-medium text-foreground mb-2">Connectors</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Connect your favorite apps so FinAI can access their information, based on what you're authorized to view.
+                  </p>
+                </div>
+                
+                <div className="grid grid-cols-3 gap-4">
+                  {connectors.map((connector) => {
+                    const Icon = connector.icon;
+                    return (
+                      <Card key={connector.name} className="relative">
+                        <CardContent className="p-6 text-center">
+                          <Icon className="h-8 w-8 mx-auto mb-3 text-muted-foreground" />
+                          <h4 className="font-medium mb-2">{connector.name}</h4>
+                          {connector.connected && (
+                            <Badge variant="secondary" className="absolute top-2 right-2">
+                              Connected
+                            </Badge>
+                          )}
+                          <Button 
+                            variant={connector.connected ? "outline" : "default"} 
+                            size="sm"
+                            className="mt-2"
+                          >
+                            {connector.connected ? "Disconnect" : "Connect"}
+                          </Button>
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {activeTab === "notification" && (
+              <div className="max-w-2xl space-y-8">
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="font-medium">Responses</h4>
+                      <p className="text-sm text-muted-foreground">
+                        Get notified when FinAI responds to requests that take time, like research or analysis.
+                      </p>
+                    </div>
+                    <Select defaultValue="push">
+                      <SelectTrigger className="w-32">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="push">Push</SelectItem>
+                        <SelectItem value="email">Email</SelectItem>
+                        <SelectItem value="none">None</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="font-medium">Tasks</h4>
+                      <p className="text-sm text-muted-foreground">
+                        Get notified when tasks you've created have updates.
+                      </p>
+                    </div>
+                    <Select defaultValue="push-email">
+                      <SelectTrigger className="w-40">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="push-email">Push, Email</SelectItem>
+                        <SelectItem value="push">Push</SelectItem>
+                        <SelectItem value="email">Email</SelectItem>
+                        <SelectItem value="none">None</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
               </div>
             )}
 
             {activeTab === "security" && (
-              <div className="max-w-2xl">
-                <h3 className="text-lg font-medium text-foreground mb-4">Security Settings</h3>
-                <p className="text-muted-foreground">Security settings will be implemented here.</p>
-              </div>
-            )}
+              <div className="max-w-2xl space-y-8">
+                {/* Multi-factor Authentication */}
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h4 className="font-medium">Multi-factor authentication</h4>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      Require an extra security challenge when logging in. If you are unable to pass this challenge, you will have the option to recover your account via email.
+                    </p>
+                  </div>
+                  <Switch checked={mfaEnabled} onCheckedChange={setMfaEnabled} />
+                </div>
 
-            {activeTab === "account" && (
-              <div className="max-w-2xl">
-                <h3 className="text-lg font-medium text-foreground mb-4">Account Settings</h3>
-                <p className="text-muted-foreground">Account settings will be implemented here.</p>
+                {/* Device Management */}
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-medium">Log out of this device</h4>
+                    <Button variant="outline">Log out</Button>
+                  </div>
+
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <h4 className="font-medium">Log out of all devices</h4>
+                      <Button variant="destructive" className="bg-red-600 hover:bg-red-700">
+                        Log out all
+                      </Button>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      Log out of all active sessions across all devices, including your current session. It may take up to 30 minutes for other devices to be logged out.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Secure Sign In */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Secure sign in with FinAI</CardTitle>
+                    <CardDescription>
+                      Sign in to websites and apps across the internet with the trusted security of FinAI.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="bg-muted/50 p-4 rounded-lg text-sm text-muted-foreground">
+                      You haven't used FinAI to sign into any websites or apps yet. Once you do, they'll show up here.
+                    </div>
+                  </CardContent>
+                </Card>
               </div>
             )}
           </div>
