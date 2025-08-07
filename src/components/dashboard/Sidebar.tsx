@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useTheme } from "@/components/ui/theme-provider";
 import { 
   MessageCircle, 
@@ -40,27 +41,31 @@ const Sidebar = ({ onNewChat, onSettingsClick, onChatSelect, activeChatTitle, on
 
   return (
     <div className={`${isCollapsed ? 'w-16' : 'w-64'} bg-sidebar h-screen flex flex-col transition-all duration-300 ease-in-out`}>
-      {/* Toggle Button */}
-      <div className="p-4">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => setIsCollapsed(!isCollapsed)}
-          className="w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent h-10"
-        >
-          {isCollapsed ? <PanelLeftOpen className="w-4 h-4" /> : <PanelLeft className="w-4 h-4" />}
-          {!isCollapsed && <span className="ml-2">Close sidebar</span>}
-        </Button>
-      </div>
-
       {/* Header */}
       {!isCollapsed && (
-        <div className="px-6 pb-6">
-          <div className="flex items-center gap-2 mb-6">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <Sparkles className="w-4 h-4 text-primary-foreground" />
+        <div className="px-6 py-6">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                <Sparkles className="w-4 h-4 text-primary-foreground" />
+              </div>
+              <span className="text-xl font-bold text-sidebar-foreground">FinAI</span>
             </div>
-            <span className="text-xl font-bold text-sidebar-foreground">FinAI</span>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setIsCollapsed(!isCollapsed)}
+                  className="text-sidebar-foreground hover:bg-sidebar-accent h-8 w-8 p-0"
+                >
+                  <PanelLeft className="w-4 h-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Close sidebar</p>
+              </TooltipContent>
+            </Tooltip>
           </div>
           
           <Button 
@@ -73,16 +78,39 @@ const Sidebar = ({ onNewChat, onSettingsClick, onChatSelect, activeChatTitle, on
         </div>
       )}
 
-      {/* Collapsed Header - Just the New Chat Button */}
+      {/* Collapsed Header - Just the Toggle and New Chat Button */}
       {isCollapsed && (
-        <div className="px-2 pb-4">
-          <Button 
-            onClick={onNewChat}
-            size="sm"
-            className="w-full bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-2"
-          >
-            <Plus className="w-4 h-4" />
-          </Button>
+        <div className="px-2 py-6 space-y-2">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setIsCollapsed(!isCollapsed)}
+                className="w-full text-sidebar-foreground hover:bg-sidebar-accent h-10 px-2 justify-center"
+              >
+                <PanelLeftOpen className="w-4 h-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="right">
+              <p>Open sidebar</p>
+            </TooltipContent>
+          </Tooltip>
+          
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button 
+                onClick={onNewChat}
+                size="sm"
+                className="w-full bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-2"
+              >
+                <Plus className="w-4 h-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="right">
+              <p>New Chat</p>
+            </TooltipContent>
+          </Tooltip>
         </div>
       )}
 
@@ -114,16 +142,21 @@ const Sidebar = ({ onNewChat, onSettingsClick, onChatSelect, activeChatTitle, on
         {isCollapsed && (
           <div className="mb-4 space-y-1">
             {savedChats.map((chat) => (
-              <button
-                key={chat}
-                onClick={() => onChatSelect(chat)}
-                className={`w-full p-3 rounded-lg transition-colors flex items-center justify-center hover:bg-sidebar-accent ${
-                  activeChatTitle === chat ? 'bg-sidebar-accent' : ''
-                }`}
-                title={chat}
-              >
-                <MessageCircle className="w-4 h-4 text-muted-foreground" />
-              </button>
+              <Tooltip key={chat}>
+                <TooltipTrigger asChild>
+                  <button
+                    onClick={() => onChatSelect(chat)}
+                    className={`w-full p-3 rounded-lg transition-colors flex items-center justify-center hover:bg-sidebar-accent ${
+                      activeChatTitle === chat ? 'bg-sidebar-accent' : ''
+                    }`}
+                  >
+                    <MessageCircle className="w-4 h-4 text-muted-foreground" />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent side="right">
+                  <p>{chat}</p>
+                </TooltipContent>
+              </Tooltip>
             ))}
           </div>
         )}
@@ -136,39 +169,98 @@ const Sidebar = ({ onNewChat, onSettingsClick, onChatSelect, activeChatTitle, on
             </h3>
           )}
           <div className="space-y-1">
-            <button 
-              onClick={onExploreClick}
-              className={`w-full ${isCollapsed ? 'p-3 justify-center' : 'text-left p-3'} rounded-lg transition-colors flex items-center gap-3 hover:bg-sidebar-accent`}
-              title={isCollapsed ? "Explore" : ""}
-            >
-              <Compass className="w-4 h-4 text-sidebar-primary" />
-              {!isCollapsed && <span className="text-sm text-sidebar-foreground">Explore</span>}
-            </button>
-            <button 
-              onClick={onBackToDashboard}
-              className={`w-full ${isCollapsed ? 'p-3 justify-center' : 'text-left p-3'} rounded-lg transition-colors flex items-center gap-3 ${
-                !activeChatTitle ? 'bg-sidebar-accent' : 'hover:bg-sidebar-accent'
-              }`}
-              title={isCollapsed ? "Dashboard" : ""}
-            >
-              <LayoutDashboard className="w-4 h-4 text-sidebar-primary" />
-              {!isCollapsed && <span className="text-sm text-sidebar-foreground">Dashboard</span>}
-            </button>
-            <button 
-              onClick={onSettingsClick}
-              className={`w-full ${isCollapsed ? 'p-3 justify-center' : 'text-left p-3'} rounded-lg transition-colors flex items-center gap-3 hover:bg-sidebar-accent`}
-              title={isCollapsed ? "Settings" : ""}
-            >
-              <Settings className="w-4 h-4 text-muted-foreground" />
-              {!isCollapsed && <span className="text-sm text-sidebar-foreground">Settings</span>}
-            </button>
-            <button 
-              className={`w-full ${isCollapsed ? 'p-3 justify-center' : 'text-left p-3'} rounded-lg transition-colors flex items-center gap-3 hover:bg-sidebar-accent`}
-              title={isCollapsed ? "Help & Support" : ""}
-            >
-              <HelpCircle className="w-4 h-4 text-muted-foreground" />
-              {!isCollapsed && <span className="text-sm text-sidebar-foreground">Help & Support</span>}
-            </button>
+            {isCollapsed ? (
+              <>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button 
+                      onClick={onExploreClick}
+                      className="w-full p-3 justify-center rounded-lg transition-colors flex items-center hover:bg-sidebar-accent"
+                    >
+                      <Compass className="w-4 h-4 text-sidebar-primary" />
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent side="right">
+                    <p>Explore</p>
+                  </TooltipContent>
+                </Tooltip>
+                
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button 
+                      onClick={onBackToDashboard}
+                      className={`w-full p-3 justify-center rounded-lg transition-colors flex items-center ${
+                        !activeChatTitle ? 'bg-sidebar-accent' : 'hover:bg-sidebar-accent'
+                      }`}
+                    >
+                      <LayoutDashboard className="w-4 h-4 text-sidebar-primary" />
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent side="right">
+                    <p>Dashboard</p>
+                  </TooltipContent>
+                </Tooltip>
+                
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button 
+                      onClick={onSettingsClick}
+                      className="w-full p-3 justify-center rounded-lg transition-colors flex items-center hover:bg-sidebar-accent"
+                    >
+                      <Settings className="w-4 h-4 text-muted-foreground" />
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent side="right">
+                    <p>Settings</p>
+                  </TooltipContent>
+                </Tooltip>
+                
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button 
+                      className="w-full p-3 justify-center rounded-lg transition-colors flex items-center hover:bg-sidebar-accent"
+                    >
+                      <HelpCircle className="w-4 h-4 text-muted-foreground" />
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent side="right">
+                    <p>Help & Support</p>
+                  </TooltipContent>
+                </Tooltip>
+              </>
+            ) : (
+              <>
+                <button 
+                  onClick={onExploreClick}
+                  className="w-full text-left p-3 rounded-lg transition-colors flex items-center gap-3 hover:bg-sidebar-accent"
+                >
+                  <Compass className="w-4 h-4 text-sidebar-primary" />
+                  <span className="text-sm text-sidebar-foreground">Explore</span>
+                </button>
+                <button 
+                  onClick={onBackToDashboard}
+                  className={`w-full text-left p-3 rounded-lg transition-colors flex items-center gap-3 ${
+                    !activeChatTitle ? 'bg-sidebar-accent' : 'hover:bg-sidebar-accent'
+                  }`}
+                >
+                  <LayoutDashboard className="w-4 h-4 text-sidebar-primary" />
+                  <span className="text-sm text-sidebar-foreground">Dashboard</span>
+                </button>
+                <button 
+                  onClick={onSettingsClick}
+                  className="w-full text-left p-3 rounded-lg transition-colors flex items-center gap-3 hover:bg-sidebar-accent"
+                >
+                  <Settings className="w-4 h-4 text-muted-foreground" />
+                  <span className="text-sm text-sidebar-foreground">Settings</span>
+                </button>
+                <button 
+                  className="w-full text-left p-3 rounded-lg transition-colors flex items-center gap-3 hover:bg-sidebar-accent"
+                >
+                  <HelpCircle className="w-4 h-4 text-muted-foreground" />
+                  <span className="text-sm text-sidebar-foreground">Help & Support</span>
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>
