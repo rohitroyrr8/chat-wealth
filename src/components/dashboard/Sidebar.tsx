@@ -152,10 +152,10 @@ const Sidebar = ({ onNewChat, onSettingsClick, onChatSelect, activeChatTitle, on
             {/* Search Button */}
             <button
               onClick={() => setSearchOpen(true)}
-              className="w-full text-left p-3 rounded-lg transition-colors flex items-center gap-3 hover:bg-sidebar-accent mb-3 border border-border"
+              className="w-full text-left p-3 rounded-lg transition-colors flex items-center gap-3 hover:bg-sidebar-accent mb-3"
             >
               <Search className="w-4 h-4 text-muted-foreground" />
-              <span className="text-sm text-muted-foreground">Search chats</span>
+              <span className="text-sm text-sidebar-foreground">Search chats</span>
               <div className="ml-auto flex items-center gap-1 text-xs text-muted-foreground bg-muted px-2 py-1 rounded">
                 <span>⌘</span>
                 <span>K</span>
@@ -187,7 +187,7 @@ const Sidebar = ({ onNewChat, onSettingsClick, onChatSelect, activeChatTitle, on
               <TooltipTrigger asChild>
                 <button
                   onClick={() => setSearchOpen(true)}
-                  className="w-full p-3 rounded-lg transition-colors flex items-center justify-center hover:bg-sidebar-accent border border-border"
+                  className="w-full p-3 rounded-lg transition-colors flex items-center justify-center hover:bg-sidebar-accent"
                 >
                   <Search className="w-4 h-4 text-muted-foreground" />
                 </button>
@@ -435,7 +435,6 @@ const Sidebar = ({ onNewChat, onSettingsClick, onChatSelect, activeChatTitle, on
       {/* Search Dialog */}
       <CommandDialog open={searchOpen} onOpenChange={setSearchOpen}>
         <div className="flex items-center border-b px-3">
-          <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
           <CommandInput placeholder="Search chats..." className="flex-1" />
           <Button
             variant="ghost"
