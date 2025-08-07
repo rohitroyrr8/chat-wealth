@@ -29,15 +29,15 @@ const Sidebar = ({ onNewChat, onSettingsClick }: SidebarProps) => {
       {/* Header */}
       <div className="p-6">
         <div className="flex items-center gap-2 mb-6">
-          <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
-            <Sparkles className="w-4 h-4 text-white" />
+          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+            <Sparkles className="w-4 h-4 text-primary-foreground" />
           </div>
           <span className="text-xl font-bold text-sidebar-foreground">FinAI</span>
         </div>
         
         <Button 
           onClick={onNewChat}
-          className="w-full bg-gradient-primary text-primary-foreground hover:opacity-90 h-12 rounded-xl"
+          className="w-full bg-primary text-primary-foreground hover:bg-primary/90 h-12 rounded-xl"
         >
           <Plus className="w-4 h-4 mr-2" />
           New Chat
@@ -96,7 +96,7 @@ const Sidebar = ({ onNewChat, onSettingsClick }: SidebarProps) => {
         <div className="flex items-center gap-3">
           <Avatar className="w-10 h-10">
             <AvatarImage src="" />
-            <AvatarFallback className="bg-gradient-primary text-white">JD</AvatarFallback>
+            <AvatarFallback className="bg-primary text-primary-foreground">JD</AvatarFallback>
           </Avatar>
           <span className="text-sm font-medium text-sidebar-foreground">John Doe</span>
         </div>
