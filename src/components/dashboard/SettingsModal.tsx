@@ -26,13 +26,13 @@ const SettingsModal = ({ open, onOpenChange }: SettingsModalProps) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-5xl h-[80vh] p-0 overflow-hidden">
+      <DialogContent className="max-w-4xl h-[70vh] p-0 overflow-hidden">
         <div className="flex h-full">
           {/* Left Sidebar */}
-          <div className="w-80 bg-muted/30 p-6">
-            <DialogHeader className="mb-8">
+          <div className="w-64 bg-muted/30 p-4">
+            <DialogHeader className="mb-6">
               <div className="flex items-center justify-between">
-                <h1 className="text-xl font-semibold text-foreground">Settings</h1>
+                <h1 className="text-lg font-semibold text-foreground">Settings</h1>
                 <Button
                   variant="ghost"
                   size="icon"
@@ -51,14 +51,14 @@ const SettingsModal = ({ open, onOpenChange }: SettingsModalProps) => {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-colors ${
+                    className={`w-full flex items-center space-x-2 px-3 py-2 rounded-lg text-left transition-colors ${
                       activeTab === tab.id
                         ? "bg-primary text-primary-foreground"
                         : "text-muted-foreground hover:text-foreground hover:bg-muted"
                     }`}
                   >
-                    <Icon className="h-5 w-5" />
-                    <span className="font-medium">{tab.label}</span>
+                    <Icon className="h-4 w-4" />
+                    <span className="text-sm font-medium">{tab.label}</span>
                   </button>
                 );
               })}
@@ -66,7 +66,7 @@ const SettingsModal = ({ open, onOpenChange }: SettingsModalProps) => {
           </div>
 
           {/* Main Content */}
-          <div className="flex-1 p-8 overflow-y-auto">
+          <div className="flex-1 p-6 overflow-y-auto">
             {activeTab === "general" && (
               <div className="max-w-2xl space-y-8">
                 {/* Theme Section */}
