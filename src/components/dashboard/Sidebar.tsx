@@ -19,10 +19,12 @@ import {
 interface SidebarProps {
   onNewChat: () => void;
   onSettingsClick: () => void;
+  onChatSelect: (chatTitle: string) => void;
+  activeChatTitle: string;
+  onBackToDashboard: () => void;
 }
 
-const Sidebar = ({ onNewChat, onSettingsClick }: SidebarProps) => {
-  const [activeChat, setActiveChat] = useState<string | null>(null);
+const Sidebar = ({ onNewChat, onSettingsClick, onChatSelect, activeChatTitle, onBackToDashboard }: SidebarProps) => {
   const { theme, setTheme } = useTheme();
 
   const savedChats = [
@@ -61,9 +63,9 @@ const Sidebar = ({ onNewChat, onSettingsClick }: SidebarProps) => {
             {savedChats.map((chat) => (
               <button
                 key={chat}
-                onClick={() => setActiveChat(chat)}
+                onClick={() => onChatSelect(chat)}
                 className={`w-full text-left p-3 rounded-lg transition-colors flex items-center gap-3 hover:bg-sidebar-accent ${
-                  activeChat === chat ? 'bg-sidebar-accent' : ''
+                  activeChatTitle === chat ? 'bg-sidebar-accent' : ''
                 }`}
               >
                 <MessageCircle className="w-4 h-4 text-muted-foreground" />
@@ -79,7 +81,12 @@ const Sidebar = ({ onNewChat, onSettingsClick }: SidebarProps) => {
             TOOLS
           </h3>
           <div className="space-y-1">
-            <button className="w-full text-left p-3 rounded-lg transition-colors flex items-center gap-3 bg-sidebar-accent">
+            <button 
+              onClick={onBackToDashboard}
+              className={`w-full text-left p-3 rounded-lg transition-colors flex items-center gap-3 ${
+                !activeChatTitle ? 'bg-sidebar-accent' : 'hover:bg-sidebar-accent'
+              }`}
+            >
               <LayoutDashboard className="w-4 h-4 text-sidebar-primary" />
               <span className="text-sm text-sidebar-foreground">Dashboard</span>
             </button>

@@ -12,7 +12,11 @@ interface Message {
   timestamp: Date;
 }
 
-const ChatInterface = () => {
+interface ChatInterfaceProps {
+  chatTitle: string;
+}
+
+const ChatInterface = ({ chatTitle }: ChatInterfaceProps) => {
   const [message, setMessage] = useState("");
   const [messages] = useState<Message[]>([
     {
@@ -48,7 +52,7 @@ const ChatInterface = () => {
       {/* Header */}
       <div className="p-6 border-b border-border">
         <div className="flex items-center justify-center">
-          <h1 className="text-2xl font-semibold text-foreground">FinAI Chat</h1>
+          <h1 className="text-2xl font-semibold text-foreground">{chatTitle}</h1>
         </div>
       </div>
 
