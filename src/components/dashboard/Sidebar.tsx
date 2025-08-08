@@ -436,14 +436,6 @@ const Sidebar = ({ onNewChat, onSettingsClick, onChatSelect, activeChatTitle, on
       <CommandDialog open={searchOpen} onOpenChange={setSearchOpen}>
         <div className="flex items-center border-b px-3">
           <CommandInput placeholder="Search chats..." className="flex-1" />
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setSearchOpen(false)}
-            className="ml-2 h-6 w-6 p-0 hover:bg-muted"
-          >
-            <X className="h-3 w-3" />
-          </Button>
         </div>
         <CommandList className="max-h-[300px] overflow-y-auto p-2">
           <CommandEmpty className="py-6 text-center text-sm text-muted-foreground">
