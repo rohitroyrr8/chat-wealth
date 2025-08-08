@@ -13,7 +13,7 @@ const MainContent = () => {
       {/* Content */}
       <div className="p-6 space-y-6">
         {/* Portfolio Summary */}
-        <Card className="p-6 bg-gradient-card shadow-card">
+        <Card className="p-6 bg-muted/30 border-border">
           <h2 className="text-lg font-semibold text-foreground mb-4">Portfolio Summary</h2>
           <div className="mb-4">
             <div className="text-3xl font-bold text-foreground">$124,500.75</div>
@@ -44,7 +44,7 @@ const MainContent = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Risk Factor */}
-          <Card className="p-6 bg-gradient-card shadow-card">
+          <Card className="p-6 bg-muted/30 border-border">
             <h3 className="text-lg font-semibold text-foreground mb-4">Risk Factor</h3>
             <div className="mb-4">
               <div className="text-2xl font-bold text-warning">Moderate (5/10)</div>
@@ -58,7 +58,7 @@ const MainContent = () => {
           </Card>
 
           {/* Asset Allocation */}
-          <Card className="p-6 bg-gradient-card shadow-card">
+          <Card className="p-6 bg-muted/30 border-border">
             <h3 className="text-lg font-semibold text-foreground mb-4">Asset Allocation</h3>
             <div className="h-32 bg-muted rounded-lg flex items-center justify-center mb-4">
               <span className="text-muted-foreground">Pie Chart of Assets</span>
@@ -86,7 +86,7 @@ const MainContent = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Financial Checklist */}
-          <Card className="p-6 bg-gradient-card shadow-card">
+          <Card className="p-6 bg-muted/30 border-border">
             <h3 className="text-lg font-semibold text-foreground mb-4">Financial Checklist</h3>
             <div className="space-y-3">
               {[
@@ -105,7 +105,7 @@ const MainContent = () => {
           </Card>
 
           {/* Recent Activity */}
-          <Card className="p-6 bg-gradient-card shadow-card">
+          <Card className="p-6 bg-muted/30 border-border">
             <h3 className="text-lg font-semibold text-foreground mb-4">Recent Activity</h3>
             <div className="space-y-4">
               {[
