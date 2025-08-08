@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { X, Settings as SettingsIcon, Bell, Zap, Shield, User, Github, Mail, Calendar, FileText, Database, MessageSquare, Cloud, HardDrive } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -8,6 +8,7 @@ import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { useTheme } from "@/components/ui/theme-provider";
 
 interface SettingsModalProps {
@@ -51,20 +52,13 @@ const SettingsModal = ({ open, onOpenChange }: SettingsModalProps) => {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-4xl h-[80vh] p-0 overflow-hidden">
+        <DialogTitle className="sr-only">Settings</DialogTitle>
         <div className="flex h-full">
           {/* Left Sidebar */}
           <div className="w-64 bg-muted/30 p-4 flex-shrink-0">
             <DialogHeader className="mb-6">
               <div className="flex items-center justify-between">
                 <h1 className="text-lg font-semibold text-foreground">Settings</h1>
-                {/* <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => onOpenChange(false)}
-                  className="text-muted-foreground hover:text-foreground"
-                >
-                  <X className="h-5 w-5" />
-                </Button> */}
               </div>
             </DialogHeader>
             
@@ -90,8 +84,9 @@ const SettingsModal = ({ open, onOpenChange }: SettingsModalProps) => {
           </div>
 
           {/* Main Content */}
-          <div className="flex-1 overflow-hidden flex flex-col">
-            <div className="flex-1 overflow-y-scroll p-6">
+          <div className="flex-1 flex flex-col">
+            <ScrollArea className="flex-1">
+              <div className="p-6">
             {activeTab === "general" && (
               <div className="max-w-2xl space-y-8">
                 {/* Theme Section */}
@@ -401,7 +396,8 @@ const SettingsModal = ({ open, onOpenChange }: SettingsModalProps) => {
                 </Card>
               </div>
             )}
-            </div>
+              </div>
+            </ScrollArea>
           </div>
         </div>
       </DialogContent>
