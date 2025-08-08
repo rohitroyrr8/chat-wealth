@@ -30,7 +30,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="flex h-screen bg-background">
+    <div className="flex min-h-screen bg-background">
       <Sidebar 
         onNewChat={handleNewChat} 
         onSettingsClick={() => setSettingsOpen(true)}
