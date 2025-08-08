@@ -89,7 +89,7 @@ const ChatInterface = ({ chatTitle }: ChatInterfaceProps) => {
             <div key={msg.id} className="space-y-4">
               {msg.role === "user" ? (
                 <div className="flex justify-end">
-                  <div className="bg-muted/50 rounded-2xl px-4 py-3 max-w-2xl">
+                  <div className="bg-sidebar-background/40 border border-sidebar-border/50 rounded-2xl px-4 py-3 max-w-2xl">
                     <p className="text-foreground whitespace-pre-wrap">{msg.content}</p>
                   </div>
                 </div>
