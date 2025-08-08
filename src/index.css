@@ -70,7 +70,7 @@ All colors MUST be HSL.
   }
 
   .light {
-    --background: 0 0% 98%;
+    --background: 60 20% 95%;
     --foreground: 212 15% 15%;
 
     --card: 0 0% 100%;
