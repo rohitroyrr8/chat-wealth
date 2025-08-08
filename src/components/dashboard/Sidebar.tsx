@@ -65,7 +65,7 @@ const Sidebar = ({ onNewChat, onSettingsClick, onChatSelect, activeChatTitle, on
   ];
 
   return (
-    <div className={`${isCollapsed ? 'w-16' : 'w-64'} bg-sidebar h-screen flex flex-col transition-all duration-300 ease-in-out`}>
+    <div className={`${isCollapsed ? 'w-16' : 'w-64'} bg-sidebar h-screen flex flex-col transition-all duration-300 ease-in-out sticky top-0`}>
       {/* Header */}
       {!isCollapsed && (
         <div className="px-6 py-6">
