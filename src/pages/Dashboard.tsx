@@ -10,9 +10,8 @@ const Dashboard = () => {
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   const handleNewChat = () => {
-    // Generate a new chat ID and navigate to it
-    const newChatId = `new-chat-${Date.now()}`;
-    navigate(`/chat/${newChatId}`);
+    // Navigate to new chat page
+    navigate("/new");
   };
 
   const handleChatSelect = (chatTitle: string) => {

@@ -10,6 +10,7 @@ import EmailVerification from "./pages/EmailVerification";
 import Explore from "./pages/Explore";
 import Dashboard from "./pages/Dashboard";
 import Chat from "./pages/Chat";
+import NewChat from "./pages/NewChat";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ const App = () => (
             <Route path="/verify-email" element={<EmailVerification />} />
             <Route path="/explore" element={<Explore />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/new" element={<NewChat />} />
             <Route path="/chat/:chatId" element={<Chat />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
