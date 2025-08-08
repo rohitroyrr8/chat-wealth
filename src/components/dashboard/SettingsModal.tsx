@@ -57,14 +57,14 @@ const SettingsModal = ({ open, onOpenChange }: SettingsModalProps) => {
             <DialogHeader className="mb-6">
               <div className="flex items-center justify-between">
                 <h1 className="text-lg font-semibold text-foreground">Settings</h1>
-                <Button
+                {/* <Button
                   variant="ghost"
                   size="icon"
                   onClick={() => onOpenChange(false)}
                   className="text-muted-foreground hover:text-foreground"
                 >
                   <X className="h-5 w-5" />
-                </Button>
+                </Button> */}
               </div>
             </DialogHeader>
             
@@ -82,7 +82,7 @@ const SettingsModal = ({ open, onOpenChange }: SettingsModalProps) => {
                     }`}
                   >
                     <Icon className="h-5 w-5" />
-                    <span className="font-medium">{tab.label}</span>
+                    <span className="font-small">{tab.label}</span>
                   </button>
                 );
               })}
