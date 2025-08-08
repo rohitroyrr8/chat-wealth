@@ -82,7 +82,7 @@ const SettingsModal = ({ open, onOpenChange }: SettingsModalProps) => {
                     }`}
                   >
                     <Icon className="h-5 w-5" />
-                    <span className="font-small">{tab.label}</span>
+                    <span className="text-sm">{tab.label}</span>
                   </button>
                 );
               })}
