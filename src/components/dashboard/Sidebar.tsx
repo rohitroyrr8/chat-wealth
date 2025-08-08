@@ -152,7 +152,7 @@ const Sidebar = ({ onNewChat, onSettingsClick, onChatSelect, activeChatTitle, on
             {/* Search Button */}
             <button
               onClick={() => setSearchOpen(true)}
-              className="w-full text-left p-3 rounded-lg transition-colors flex items-center gap-3 hover:bg-sidebar-accent mb-3"
+              className="w-full text-left p-3 rounded-lg transition-colors flex items-center gap-3 bg-sidebar-accent mb-3"
             >
               <Search className="w-4 h-4 text-muted-foreground" />
               <span className="text-sm text-sidebar-foreground">Search chats</span>
