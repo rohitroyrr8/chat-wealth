@@ -5,14 +5,12 @@ import { Input } from "@/components/ui/input";
 import { Send, Mic, Paperclip, Globe } from "lucide-react";
 import Sidebar from "@/components/dashboard/Sidebar";
 import SettingsModal from "@/components/dashboard/SettingsModal";
-import FinancialPlanningFlow from "@/components/financial/FinancialPlanningFlow";
-import FinancialPlanSummary from "@/components/financial/FinancialPlanSummary";
+import FinancialPlanningChat from "@/components/financial/FinancialPlanningChat";
 
 const NewChat = () => {
   const [message, setMessage] = useState("");
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [showFinancialPlanning, setShowFinancialPlanning] = useState(false);
-  const [financialPlan, setFinancialPlan] = useState(null);
   const navigate = useNavigate();
 
   const suggestedPrompts = [
@@ -70,16 +68,6 @@ const NewChat = () => {
     navigate("/explore");
   };
 
-  const handlePlanComplete = (plan: any) => {
-    setFinancialPlan(plan);
-    setShowFinancialPlanning(false);
-  };
-
-  const handleStartOver = () => {
-    setFinancialPlan(null);
-    setShowFinancialPlanning(false);
-  };
-
   return (
     <div className="flex min-h-screen bg-background">
       <Sidebar
@@ -91,71 +79,71 @@ const NewChat = () => {
         onExploreClick={handleExploreClick}
       />
       
-      <div className="flex-1 flex flex-col items-center justify-center p-6">
+      <div className="flex-1 flex flex-col">
         {showFinancialPlanning ? (
-          <FinancialPlanningFlow onComplete={handlePlanComplete} />
-        ) : financialPlan ? (
-          <FinancialPlanSummary plan={financialPlan} onStartOver={handleStartOver} />
+          <FinancialPlanningChat />
         ) : (
-          <div className="w-full max-w-4xl mx-auto space-y-12">
-            {/* Header */}
-            <div className="text-center space-y-4">
-              <h1 className="text-4xl font-bold text-foreground">
-                What's on your mind today?
-              </h1>
-              <p className="text-lg text-muted-foreground">
-                Ask anything about your finances, investments, or money management
-              </p>
-            </div>
-
-            {/* Main Chat Input */}
-            <div className="space-y-6">
-              <form onSubmit={handleSubmit} className="relative">
-                <div className="flex items-center gap-3 bg-muted/30 rounded-xl border border-border p-4 shadow-sm">
-                  <Input
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    placeholder="Ask anything or @mention a Space"
-                    className="flex-1 border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground text-base"
-                  />
-                  <div className="flex items-center gap-2">
-                    <Button type="button" variant="ghost" size="sm" className="h-9 w-9 p-0">
-                      <Paperclip className="w-4 h-4" />
-                    </Button>
-                    <Button type="button" variant="ghost" size="sm" className="h-9 w-9 p-0">
-                      <Globe className="w-4 h-4" />
-                    </Button>
-                    <Button type="button" variant="ghost" size="sm" className="h-9 w-9 p-0">
-                      <Mic className="w-4 h-4" />
-                    </Button>
-                    <Button 
-                      type="submit" 
-                      size="sm" 
-                      className="h-9 w-9 p-0 bg-primary hover:bg-primary/90"
-                      disabled={!message.trim()}
-                    >
-                      <Send className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </div>
-              </form>
-
-              {/* Suggested Prompts */}
-              <div className="space-y-3">
-                <p className="text-sm text-muted-foreground text-center">
-                  Or try one of these suggestions:
+          <div className="flex-1 flex flex-col items-center justify-center p-6">
+            <div className="w-full max-w-4xl mx-auto space-y-12">
+              {/* Header */}
+              <div className="text-center space-y-4">
+                <h1 className="text-4xl font-bold text-foreground">
+                  What's on your mind today?
+                </h1>
+                <p className="text-lg text-muted-foreground">
+                  Ask anything about your finances, investments, or money management
                 </p>
-                <div className="flex flex-wrap gap-3 justify-center">
-                  {suggestedPrompts.map((prompt, index) => (
-                    <Button
-                      key={index}
-                      variant="outline"
-                      onClick={() => handlePromptClick(prompt)}
-                      className="bg-muted/20 hover:bg-muted/40 text-sm py-2 px-4 h-auto whitespace-normal text-center max-w-xs"
-                    >
-                      {prompt}
-                    </Button>
-                  ))}
+              </div>
+
+              {/* Main Chat Input */}
+              <div className="space-y-6">
+                <form onSubmit={handleSubmit} className="relative">
+                  <div className="flex items-center gap-3 bg-muted/30 rounded-xl border border-border p-4 shadow-sm">
+                    <Input
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      placeholder="Ask anything or @mention a Space"
+                      className="flex-1 border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground text-base"
+                    />
+                    <div className="flex items-center gap-2">
+                      <Button type="button" variant="ghost" size="sm" className="h-9 w-9 p-0">
+                        <Paperclip className="w-4 h-4" />
+                      </Button>
+                      <Button type="button" variant="ghost" size="sm" className="h-9 w-9 p-0">
+                        <Globe className="w-4 h-4" />
+                      </Button>
+                      <Button type="button" variant="ghost" size="sm" className="h-9 w-9 p-0">
+                        <Mic className="w-4 h-4" />
+                      </Button>
+                      <Button 
+                        type="submit" 
+                        size="sm" 
+                        className="h-9 w-9 p-0 bg-primary hover:bg-primary/90"
+                        disabled={!message.trim()}
+                      >
+                        <Send className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
+                </form>
+
+                {/* Suggested Prompts */}
+                <div className="space-y-3">
+                  <p className="text-sm text-muted-foreground text-center">
+                    Or try one of these suggestions:
+                  </p>
+                  <div className="flex flex-wrap gap-3 justify-center">
+                    {suggestedPrompts.map((prompt, index) => (
+                      <Button
+                        key={index}
+                        variant="outline"
+                        onClick={() => handlePromptClick(prompt)}
+                        className="bg-muted/20 hover:bg-muted/40 text-sm py-2 px-4 h-auto whitespace-normal text-center max-w-xs"
+                      >
+                        {prompt}
+                      </Button>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
