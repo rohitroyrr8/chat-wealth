@@ -136,9 +136,9 @@ const NewChat = () => {
                     {suggestedPrompts.map((prompt, index) => (
                       <Button
                         key={index}
-                        variant="outline"
+                        variant="ghost"
                         onClick={() => handlePromptClick(prompt)}
-                        className="bg-muted/20 hover:bg-muted/40 text-sm py-2 px-4 h-auto whitespace-normal text-center max-w-xs"
+                        className="bg-sidebar-accent hover:bg-sidebar-accent/80 text-sm py-2 px-4 h-auto whitespace-normal text-center max-w-xs"
                       >
                         {prompt}
                       </Button>
