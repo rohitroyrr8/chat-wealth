@@ -51,49 +51,52 @@ const SettingsModal = ({ open, onOpenChange }: SettingsModalProps) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl h-[80vh] p-0 overflow-hidden">
+      <DialogContent className="max-w-[900px] w-[90vw] h-[85vh] p-0 overflow-hidden">
         <DialogTitle className="sr-only">Settings</DialogTitle>
         <div className="flex h-full">
           {/* Left Sidebar */}
-          <div className="w-64 bg-muted/30 p-4 flex-shrink-0">
-            <DialogHeader className="mb-6">
-              <div className="flex items-center justify-between">
-                <h1 className="text-lg font-semibold text-foreground">Settings</h1>
-              </div>
-            </DialogHeader>
-            
-            <nav className="space-y-1">
-              {tabs.map((tab) => {
-                const Icon = tab.icon;
-                return (
-                  <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id)}
-                    className={`w-full flex items-center space-x-3 px-3 py-3 rounded-xl text-left transition-all duration-200 ${
-                      activeTab === tab.id
-                        ? "bg-muted text-foreground"
-                        : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                    }`}
-                  >
-                    <Icon className="h-5 w-5" />
-                    <span className="text-sm">{tab.label}</span>
-                  </button>
-                );
-              })}
-            </nav>
+          <div className="w-[280px] bg-muted/30 border-r border-border flex-shrink-0">
+            <div className="p-6">
+              <h1 className="text-xl font-medium text-foreground mb-6">Settings</h1>
+              
+              <nav className="space-y-1">
+                {tabs.map((tab) => {
+                  const Icon = tab.icon;
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => setActiveTab(tab.id)}
+                      className={`w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-left transition-all duration-200 ${
+                        activeTab === tab.id
+                          ? "bg-muted text-foreground"
+                          : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                      }`}
+                    >
+                      <Icon className="h-4 w-4" />
+                      <span className="text-sm font-medium">{tab.label}</span>
+                    </button>
+                  );
+                })}
+              </nav>
+            </div>
           </div>
 
           {/* Main Content */}
           <div className="flex-1 flex flex-col min-h-0">
+            {/* Header with active tab title */}
+            <div className="px-8 py-6 border-b border-border">
+              <h2 className="text-2xl font-medium text-foreground capitalize">{activeTab}</h2>
+            </div>
+            
             <ScrollArea className="flex-1 h-full">
-              <div className="p-6 space-y-8">
+              <div className="p-8 space-y-6">
                 {activeTab === "general" && (
-                  <div className="max-w-2xl space-y-8">
+                  <div className="max-w-2xl space-y-6">
                     {/* Theme Section */}
-                    <div className="space-y-4">
+                    <div className="space-y-3">
                       <div>
-                        <h3 className="text-lg font-medium text-foreground mb-2">Theme</h3>
-                        <p className="text-sm text-muted-foreground mb-4">
+                        <h3 className="text-base font-medium text-foreground mb-1">Theme</h3>
+                        <p className="text-sm text-muted-foreground mb-3">
                           Select your preferred theme for the application.
                         </p>
                       </div>
@@ -121,9 +124,9 @@ const SettingsModal = ({ open, onOpenChange }: SettingsModalProps) => {
                     </div>
 
                     {/* Language Section */}
-                    <div className="space-y-4">
+                    <div className="space-y-3">
                       <div>
-                        <Label htmlFor="language" className="text-lg font-medium text-foreground">
+                        <Label htmlFor="language" className="text-base font-medium text-foreground">
                           Language
                         </Label>
                         <p className="text-sm text-muted-foreground mt-1">
@@ -145,9 +148,9 @@ const SettingsModal = ({ open, onOpenChange }: SettingsModalProps) => {
                     </div>
 
                     {/* Spoken Language Section */}
-                    <div className="space-y-4">
+                    <div className="space-y-3">
                       <div>
-                        <Label htmlFor="spoken-language" className="text-lg font-medium text-foreground">
+                        <Label htmlFor="spoken-language" className="text-base font-medium text-foreground">
                           Spoken Language
                         </Label>
                         <p className="text-sm text-muted-foreground mt-1">
@@ -169,11 +172,11 @@ const SettingsModal = ({ open, onOpenChange }: SettingsModalProps) => {
                     </div>
 
                     {/* Follow-up Questions Section */}
-                    <div className="space-y-4">
+                    <div className="space-y-3">
                       <div className="flex items-center justify-between">
                         <div>
-                          <Label htmlFor="follow-up" className="text-lg font-medium text-foreground">
-                            Allow Follow-up Questions
+                          <Label htmlFor="follow-up" className="text-base font-medium text-foreground">
+                            Show follow up suggestions in chats
                           </Label>
                           <p className="text-sm text-muted-foreground mt-1">
                             Enable or disable the AI's ability to ask clarifying follow-up questions.
@@ -186,7 +189,7 @@ const SettingsModal = ({ open, onOpenChange }: SettingsModalProps) => {
                 )}
 
                 {activeTab === "account" && (
-                  <div className="max-w-2xl space-y-8 pb-6">
+                  <div className="max-w-2xl space-y-6 pb-6">
                     {/* Current Plan */}
                     <Card>
                       <CardHeader>
@@ -261,7 +264,6 @@ const SettingsModal = ({ open, onOpenChange }: SettingsModalProps) => {
                 {activeTab === "connector" && (
                   <div className="max-w-4xl space-y-6">
                     <div>
-                      <h3 className="text-lg font-medium text-foreground mb-2">Connectors</h3>
                       <p className="text-sm text-muted-foreground">
                         Connect your favorite apps so FinAI can access their information, based on what you're authorized to view.
                       </p>
@@ -296,7 +298,7 @@ const SettingsModal = ({ open, onOpenChange }: SettingsModalProps) => {
                 )}
 
                 {activeTab === "notification" && (
-                  <div className="max-w-2xl space-y-8">
+                  <div className="max-w-2xl space-y-6">
                     <div className="space-y-6">
                       <div className="flex items-center justify-between">
                         <div>
@@ -342,13 +344,12 @@ const SettingsModal = ({ open, onOpenChange }: SettingsModalProps) => {
 
                 {activeTab === "billing" && (
                   <div className="max-w-2xl">
-                    <h3 className="text-lg font-medium text-foreground mb-4">Billing</h3>
                     <p className="text-muted-foreground">Billing settings will be implemented here.</p>
                   </div>
                 )}
 
                 {activeTab === "security" && (
-                  <div className="max-w-2xl space-y-8">
+                  <div className="max-w-2xl space-y-6">
                     {/* Multi-factor Authentication */}
                     <div className="flex items-center justify-between">
                       <div>
