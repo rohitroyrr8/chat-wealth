@@ -327,8 +327,8 @@ const FinancialPlanningChat = ({ onComplete }: FinancialPlanningChatProps) => {
             <div key={message.id} className="space-y-4">
               {message.role === "user" ? (
                 <div className="flex justify-end">
-                  <div className="bg-foreground/90 dark:bg-foreground/85 rounded-2xl px-4 py-3 max-w-2xl">
-                    <p className="text-background">{message.content}</p>
+                  <div className="bg-primary/10 border border-primary/20 rounded-2xl px-4 py-3 max-w-2xl">
+                    <p className="text-foreground">{message.content}</p>
                   </div>
                 </div>
               ) : message.type === "plan" && generatedPlan ? (
