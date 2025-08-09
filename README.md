@@ -71,3 +71,34 @@ Yes, you can!
 To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
 Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+
+## How to rub n8n using docker
+```
+# Run PostgreSQL
+docker run -d \
+  --name postgres-n8n \
+  -e POSTGRES_USER=n8n \
+  -e POSTGRES_PASSWORD=n8npass \
+  -e POSTGRES_DB=n8ndb \
+  -v postgres_data:/var/lib/postgresql/data \
+  postgres:15
+
+# Run n8n
+docker run -d \
+  --name n8n \
+  -p 5678:5678 \
+  --link postgres-n8n \
+  -e DB_TYPE=postgres \
+  -e DB_POSTGRESDB_HOST=postgres-n8n \
+  -e DB_POSTGRESDB_PORT=5432 \
+  -e DB_POSTGRESDB_DATABASE=n8ndb \
+  -e DB_POSTGRESDB_USER=n8n \
+  -e DB_POSTGRESDB_PASSWORD=n8npass \
+  -e N8N_BASIC_AUTH_ACTIVE=true \
+  -e N8N_BASIC_AUTH_USER=admin \
+  -e N8N_BASIC_AUTH_PASSWORD=changeme \
+  -e N8N_HOST=localhost \
+  -e N8N_PORT=5678 \
+  -v n8n_data:/home/node/.n8n \
+  n8nio/n8n:latest
+```
