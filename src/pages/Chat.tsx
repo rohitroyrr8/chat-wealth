@@ -3,27 +3,22 @@ import { useState, useEffect } from "react";
 import Sidebar from "@/components/dashboard/Sidebar";
 import ChatInterface from "@/components/dashboard/ChatInterface";
 import SettingsModal from "@/components/dashboard/SettingsModal";
+import { getChat } from "@/lib/chatStorage";
 
 const Chat = () => {
   const { chatId } = useParams<{ chatId: string }>();
   const navigate = useNavigate();
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   
-  // Map chat IDs to titles (in a real app, this would come from an API)
-  const chatTitles: { [key: string]: string } = {
-    "investment-strategy": "Investment Strategy",
-    "budget-planning": "Budget Planning", 
-    "retirement-goals": "Retirement Goals"
-  };
-
-  const chatTitle = chatTitles[chatId || ""] || "Unknown Chat";
+  const chatData = getChat(chatId || "");
+  const chatTitle = chatData?.title || "Unknown Chat";
 
   useEffect(() => {
     // If chatId doesn't exist in our known chats, redirect to dashboard
-    if (chatId && !chatTitles[chatId]) {
+    if (chatId && !chatData) {
       navigate("/dashboard");
     }
-  }, [chatId, navigate]);
+  }, [chatId, chatData, navigate]);
 
   const handleNewChat = () => {
     // Navigate to new chat page
@@ -60,7 +55,7 @@ const Chat = () => {
       />
       
       <div className="flex-1">
-        <ChatInterface chatTitle={chatTitle} />
+        <ChatInterface chatTitle={chatTitle} chatId={chatId || ""} />
       </div>
 
       <SettingsModal

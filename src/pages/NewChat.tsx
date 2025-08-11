@@ -6,6 +6,7 @@ import { Send, Mic, Paperclip, Globe } from "lucide-react";
 import Sidebar from "@/components/dashboard/Sidebar";
 import SettingsModal from "@/components/dashboard/SettingsModal";
 import FinancialPlanningChat from "@/components/financial/FinancialPlanningChat";
+import { createChat } from "@/lib/chatStorage";
 
 const NewChat = () => {
   const [message, setMessage] = useState("");
@@ -35,10 +36,8 @@ const NewChat = () => {
     }
     
     // Create a new chat with this message and navigate to it
-    const newChatId = `chat-${Date.now()}`;
-    navigate(`/chat/${newChatId}`, { 
-      state: { initialMessage: message } 
-    });
+    const newChatId = createChat(message);
+    navigate(`/chat/${newChatId}`);
   };
 
   const handlePromptClick = (prompt: string) => {

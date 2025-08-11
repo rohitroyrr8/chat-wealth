@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Send, Mic, Paperclip, Globe, Copy, Share, Volume2, MessageCircle, Bot } from "lucide-react";
+import { getChat, addMessageToChat } from "@/lib/chatStorage";
 
 interface Message {
   id: string;
@@ -14,38 +15,58 @@ interface Message {
 
 interface ChatInterfaceProps {
   chatTitle: string;
+  chatId: string;
 }
 
-const ChatInterface = ({ chatTitle }: ChatInterfaceProps) => {
+const ChatInterface = ({ chatTitle, chatId }: ChatInterfaceProps) => {
   const [message, setMessage] = useState("");
   const [mode, setMode] = useState<"chat" | "agent">("chat");
-  const [messages] = useState<Message[]>([
-    {
-      id: "1",
-      content: "I'm looking to create a diversified investment portfolio. What should I consider for someone in their early 30s with moderate risk tolerance?",
-      role: "user",
-      timestamp: new Date(Date.now() - 1000 * 60 * 5),
-    },
-    {
-      id: "2", 
-      content: "For someone in their early 30s with moderate risk tolerance, here's a structured approach to building a diversified portfolio:\n\n**Asset Allocation Strategy:**\n• 70-80% Stocks (mix of domestic and international)\n• 15-25% Bonds (government and corporate)\n• 5-10% Alternative investments (REITs, commodities)\n\n**Key Considerations:**\n1. **Time Horizon**: You have 30+ years until retirement, allowing for growth-focused investments\n2. **Emergency Fund**: Maintain 3-6 months of expenses in high-yield savings\n3. **Tax-Advantaged Accounts**: Maximize 401(k) employer match and consider Roth IRA\n4. **Low-Cost Index Funds**: Focus on broad market exposure with minimal fees\n\n**Sample Portfolio:**\n• 40% Total Stock Market Index\n• 20% International Developed Markets\n• 10% Emerging Markets\n• 20% Bond Index Fund\n• 10% REITs\n\nWould you like me to help you analyze your current financial situation or discuss specific investment vehicles?",
-      role: "assistant",
-      timestamp: new Date(Date.now() - 1000 * 60 * 3),
-    },
-    {
-      id: "3",
-      content: "That's helpful! What about ESG investing? I want my investments to align with my values while still maintaining good returns.",
-      role: "user", 
-      timestamp: new Date(Date.now() - 1000 * 60 * 1),
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [isWaitingForResponse, setIsWaitingForResponse] = useState(false);
+
+  useEffect(() => {
+    const chatData = getChat(chatId);
+    if (chatData) {
+      setMessages(chatData.messages);
+      // If there's only one user message and no assistant response, show waiting state
+      if (chatData.messages.length === 1 && chatData.messages[0].role === "user") {
+        setIsWaitingForResponse(true);
+      }
     }
-  ]);
+  }, [chatId]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!message.trim()) return;
     
-    console.log("Sending message:", message);
+    // Add user message to chat
+    addMessageToChat(chatId, {
+      content: message,
+      role: "user"
+    });
+    
+    // Update local state
+    const chatData = getChat(chatId);
+    if (chatData) {
+      setMessages(chatData.messages);
+    }
+    
     setMessage("");
+    setIsWaitingForResponse(true);
+    
+    // Simulate AI response after delay
+    setTimeout(() => {
+      addMessageToChat(chatId, {
+        content: "I'm working on your request. This is a simulated AI response to demonstrate the chat functionality.",
+        role: "assistant"
+      });
+      
+      const updatedChatData = getChat(chatId);
+      if (updatedChatData) {
+        setMessages(updatedChatData.messages);
+      }
+      setIsWaitingForResponse(false);
+    }, 2000);
   };
 
   return (
@@ -113,6 +134,19 @@ const ChatInterface = ({ chatTitle }: ChatInterfaceProps) => {
               )}
             </div>
           ))}
+          
+          {isWaitingForResponse && (
+            <div className="space-y-3">
+              <div className="flex items-center gap-2">
+                <Bot className="w-5 h-5 text-muted-foreground" />
+                <div className="flex gap-1">
+                  <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce"></div>
+                  <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                  <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </ScrollArea>
 
