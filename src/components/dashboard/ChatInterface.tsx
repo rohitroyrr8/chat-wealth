@@ -5,6 +5,9 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Send, Mic, Paperclip, Globe, Copy, Share, Volume2, MessageCircle, Bot } from "lucide-react";
 import { getChat, addMessageToChat } from "@/lib/chatStorage";
+import ReactMarkdown from "react-markdown";
+import rehypeHighlight from "rehype-highlight";
+import "highlight.js/styles/github-dark.css";
 
 interface Message {
   id: string;
@@ -35,13 +38,15 @@ const ChatInterface = ({ chatTitle, chatId }: ChatInterfaceProps) => {
     }
   }, [chatId]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!message.trim()) return;
     
+    const userMessage = message;
+    
     // Add user message to chat
     addMessageToChat(chatId, {
-      content: message,
+      content: userMessage,
       role: "user"
     });
     
@@ -54,10 +59,40 @@ const ChatInterface = ({ chatTitle, chatId }: ChatInterfaceProps) => {
     setMessage("");
     setIsWaitingForResponse(true);
     
-    // Simulate AI response after delay
-    setTimeout(() => {
+    try {
+      // Send to webhook
+      const webhookUrl = `http://localhost:5678/webhook/bd5fe1bb-69f7-4b4d-ae34-f76da100d260?message=${encodeURIComponent(userMessage)}`;
+      const response = await fetch(webhookUrl, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      const aiResponse = data.output || "Sorry, I couldn't process your request.";
+      
+      // Add AI response to chat
       addMessageToChat(chatId, {
-        content: "I'm working on your request. This is a simulated AI response to demonstrate the chat functionality.",
+        content: aiResponse,
+        role: "assistant"
+      });
+      
+      // Update local state
+      const updatedChatData = getChat(chatId);
+      if (updatedChatData) {
+        setMessages(updatedChatData.messages);
+      }
+    } catch (error) {
+      console.error('Error calling webhook:', error);
+      
+      // Add error message to chat
+      addMessageToChat(chatId, {
+        content: "Sorry, I'm having trouble connecting to the AI service. Please try again later.",
         role: "assistant"
       });
       
@@ -65,8 +100,9 @@ const ChatInterface = ({ chatTitle, chatId }: ChatInterfaceProps) => {
       if (updatedChatData) {
         setMessages(updatedChatData.messages);
       }
+    } finally {
       setIsWaitingForResponse(false);
-    }, 2000);
+    }
   };
 
   return (
@@ -116,8 +152,36 @@ const ChatInterface = ({ chatTitle, chatId }: ChatInterfaceProps) => {
                 </div>
               ) : (
                 <div className="space-y-3">
-                  <div className="prose prose-sm max-w-none">
-                    <p className="text-foreground whitespace-pre-wrap leading-relaxed">{msg.content}</p>
+                  <div className="prose prose-sm max-w-none dark:prose-invert text-foreground leading-relaxed">
+                    <ReactMarkdown 
+                      rehypePlugins={[rehypeHighlight]}
+                      components={{
+                        code(props) {
+                          const { children, className, ...rest } = props;
+                          const match = /language-(\w+)/.exec(className || '');
+                          return match ? (
+                            <code className="block bg-muted p-4 rounded-lg font-mono text-sm overflow-x-auto" {...rest}>
+                              {children}
+                            </code>
+                          ) : (
+                            <code className="bg-muted px-1.5 py-0.5 rounded text-sm font-mono" {...rest}>
+                              {children}
+                            </code>
+                          );
+                        },
+                        h1: ({children}) => <h1 className="text-2xl font-bold mb-4">{children}</h1>,
+                        h2: ({children}) => <h2 className="text-xl font-semibold mb-3">{children}</h2>,
+                        h3: ({children}) => <h3 className="text-lg font-medium mb-2">{children}</h3>,
+                        ul: ({children}) => <ul className="list-disc list-inside mb-4 space-y-1">{children}</ul>,
+                        ol: ({children}) => <ol className="list-decimal list-inside mb-4 space-y-1">{children}</ol>,
+                        blockquote: ({children}) => <blockquote className="border-l-4 border-primary pl-4 italic mb-4">{children}</blockquote>,
+                        table: ({children}) => <table className="border-collapse border border-border mb-4">{children}</table>,
+                        th: ({children}) => <th className="border border-border p-2 bg-muted font-semibold">{children}</th>,
+                        td: ({children}) => <td className="border border-border p-2">{children}</td>,
+                      }}
+                    >
+                      {msg.content}
+                    </ReactMarkdown>
                   </div>
                   <div className="flex gap-2">
                     <Button variant="ghost" size="sm" className="h-8 px-2">
