@@ -62,18 +62,26 @@ const ChatInterface = ({ chatTitle, chatId }: ChatInterfaceProps) => {
     try {
       // Send to webhook
       const webhookUrl = `http://localhost:5678/webhook/bd5fe1bb-69f7-4b4d-ae34-f76da100d260?message=${encodeURIComponent(userMessage)}`;
+      console.log('Sending request to:', webhookUrl);
+      
       const response = await fetch(webhookUrl, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
+        mode: 'cors', // Enable CORS
       });
+      
+      console.log('Response status:', response.status);
+      console.log('Response headers:', response.headers);
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       
       const data = await response.json();
+      console.log('Response data:', data);
+      
       const aiResponse = data.output || "Sorry, I couldn't process your request.";
       
       // Add AI response to chat
@@ -92,7 +100,7 @@ const ChatInterface = ({ chatTitle, chatId }: ChatInterfaceProps) => {
       
       // Add error message to chat
       addMessageToChat(chatId, {
-        content: "Sorry, I'm having trouble connecting to the AI service. Please try again later.",
+        content: `Error connecting to AI service: ${error instanceof Error ? error.message : 'Unknown error'}. Please ensure the webhook server is running and accessible.`,
         role: "assistant"
       });
       
