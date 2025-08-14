@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Send, Mic, Paperclip, Globe, Copy, Share, Volume2, MessageCircle, Bot } from "lucide-react";
@@ -226,14 +226,20 @@ const ChatInterface = ({ chatTitle, chatId }: ChatInterfaceProps) => {
       <div className="p-6 border-t border-border">
         <div className="max-w-4xl mx-auto">
           <form onSubmit={handleSubmit} className="relative">
-            <div className="flex items-center gap-3 bg-muted/30 rounded-xl border border-border p-3">
-              <Input
+            <div className="flex items-start gap-3 bg-muted/30 rounded-xl border border-border p-3">
+              <Textarea
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder={mode === "chat" ? "Ask anything about your finances..." : "Press and hold to speak, or type your message..."}
-                className="flex-1 border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground"
+                className="flex-1 border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground resize-none min-h-[40px] max-h-32"
+                rows={1}
+                onInput={(e) => {
+                  const target = e.target as HTMLTextAreaElement;
+                  target.style.height = 'auto';
+                  target.style.height = Math.min(target.scrollHeight, 128) + 'px';
+                }}
               />
-              <div className="flex items-center gap-2">
+              <div className="flex items-end gap-2">
                 <Button type="button" variant="ghost" size="sm" className="h-8 w-8 p-0">
                   <Paperclip className="w-4 h-4" />
                 </Button>
