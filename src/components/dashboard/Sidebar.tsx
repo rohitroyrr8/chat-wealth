@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { useTheme } from "@/components/ui/theme-provider";
 import {
   Command,
@@ -32,7 +32,11 @@ import {
   X,
   MoreHorizontal,
   Archive,
-  Trash2
+  Trash2,
+  Edit,
+  Share,
+  FolderPlus,
+  ChevronRight
 } from "lucide-react";
 
 interface SidebarProps {
@@ -195,10 +199,44 @@ const Sidebar = ({ onNewChat, onSettingsClick, onChatSelect, activeChatTitle, on
                     <DropdownMenuContent align="start" side="right" className="w-48">
                       <DropdownMenuItem
                         onClick={() => {
+                          console.log(`Share chat: ${chat}`);
+                          // Add share functionality here
+                        }}
+                        className="flex items-center gap-3 py-2.5"
+                      >
+                        <Share className="w-4 h-4" />
+                        Share
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => {
+                          console.log(`Rename chat: ${chat}`);
+                          // Add rename functionality here
+                        }}
+                        className="flex items-center gap-3 py-2.5"
+                      >
+                        <Edit className="w-4 h-4" />
+                        Rename
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => {
+                          console.log(`Add to project: ${chat}`);
+                          // Add to project functionality here
+                        }}
+                        className="flex items-center justify-between py-2.5"
+                      >
+                        <div className="flex items-center gap-3">
+                          <FolderPlus className="w-4 h-4" />
+                          Add to project
+                        </div>
+                        <ChevronRight className="w-4 h-4" />
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem
+                        onClick={() => {
                           console.log(`Archive chat: ${chat}`);
                           // Add archive functionality here
                         }}
-                        className="flex items-center gap-2"
+                        className="flex items-center gap-3 py-2.5"
                       >
                         <Archive className="w-4 h-4" />
                         Archive
@@ -208,7 +246,7 @@ const Sidebar = ({ onNewChat, onSettingsClick, onChatSelect, activeChatTitle, on
                           console.log(`Delete chat: ${chat}`);
                           // Add delete functionality here
                         }}
-                        className="flex items-center gap-2 text-destructive hover:text-destructive"
+                        className="flex items-center gap-3 py-2.5 text-destructive hover:text-destructive focus:text-destructive hover:bg-destructive/10 focus:bg-destructive/10"
                       >
                         <Trash2 className="w-4 h-4" />
                         Delete
