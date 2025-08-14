@@ -78,8 +78,6 @@ const Sidebar = ({ onNewChat, onSettingsClick, onChatSelect, activeChatTitle, on
   ];
 
   const sidebarChats = savedChats.slice(0, 3);
-  const searchChats = savedChats.slice(0, 6);
-  const remainingChatsCount = savedChats.length - searchChats.length;
 
   return (
     <div className={`${isCollapsed ? 'w-16' : 'w-64'} bg-sidebar h-screen flex flex-col transition-all duration-300 ease-in-out sticky top-0`}>
@@ -530,26 +528,40 @@ const Sidebar = ({ onNewChat, onSettingsClick, onChatSelect, activeChatTitle, on
           <CommandEmpty className="py-6 text-center text-sm text-muted-foreground">
             No chats found.
           </CommandEmpty>
-          <CommandGroup>
-            {searchChats.map((chat) => (
-              <CommandItem
-                key={chat}
-                onSelect={() => {
-                  onChatSelect(chat);
-                  setSearchOpen(false);
-                }}
-                className="flex items-center gap-3 px-2 py-3 cursor-pointer"
-              >
-                <MessageCircle className="w-4 h-4 text-muted-foreground" />
-                <span className="text-sm">{chat}</span>
-              </CommandItem>
-            ))}
-            {remainingChatsCount > 0 && (
-              <div className="px-2 py-2 text-sm text-muted-foreground">
-                +{remainingChatsCount} more chats
-              </div>
-            )}
-          </CommandGroup>
+          
+          {/* New Chat Option */}
+          <CommandItem
+            onSelect={() => {
+              onNewChat();
+              setSearchOpen(false);
+            }}
+            className="flex items-center gap-3 px-2 py-3 cursor-pointer mb-2"
+          >
+            <Edit className="w-4 h-4 text-muted-foreground" />
+            <span className="text-sm font-medium">New chat</span>
+          </CommandItem>
+
+          {/* Previous 7 Days Section */}
+          <div className="px-2 py-2">
+            <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
+              Previous 7 Days
+            </h3>
+            <div className="space-y-1">
+              {savedChats.map((chat) => (
+                <CommandItem
+                  key={chat}
+                  onSelect={() => {
+                    onChatSelect(chat);
+                    setSearchOpen(false);
+                  }}
+                  className="flex items-center gap-3 px-2 py-3 cursor-pointer rounded-lg"
+                >
+                  <MessageCircle className="w-4 h-4 text-muted-foreground" />
+                  <span className="text-sm">{chat}</span>
+                </CommandItem>
+              ))}
+            </div>
+          </div>
         </CommandList>
       </CommandDialog>
     </div>
