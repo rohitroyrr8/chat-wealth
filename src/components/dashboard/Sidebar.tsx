@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useTheme } from "@/components/ui/theme-provider";
 import {
   Command,
@@ -28,7 +29,10 @@ import {
   PanelLeft,
   PanelLeftOpen,
   Search,
-  X
+  X,
+  MoreHorizontal,
+  Archive,
+  Trash2
 } from "lucide-react";
 
 interface SidebarProps {
@@ -164,16 +168,54 @@ const Sidebar = ({ onNewChat, onSettingsClick, onChatSelect, activeChatTitle, on
             
             <div className="space-y-1">
               {savedChats.map((chat) => (
-                <button
+                <div
                   key={chat}
-                  onClick={() => onChatSelect(chat)}
-                  className={`w-full text-left p-3 rounded-lg transition-colors flex items-center gap-3 hover:bg-sidebar-accent ${
+                  className={`group relative flex items-center w-full p-3 rounded-lg transition-colors hover:bg-sidebar-accent ${
                     activeChatTitle === chat ? 'bg-sidebar-accent' : ''
                   }`}
                 >
-                  <MessageCircle className="w-4 h-4 text-muted-foreground" />
-                  <span className="text-sm text-sidebar-foreground">{chat}</span>
-                </button>
+                  <button
+                    onClick={() => onChatSelect(chat)}
+                    className="flex items-center gap-3 w-full text-left"
+                  >
+                    <MessageCircle className="w-4 h-4 text-muted-foreground" />
+                    <span className="text-sm text-sidebar-foreground truncate">{chat}</span>
+                  </button>
+                  
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="opacity-0 group-hover:opacity-100 transition-opacity h-6 w-6 p-0 ml-2 flex-shrink-0"
+                      >
+                        <MoreHorizontal className="w-4 h-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-48">
+                      <DropdownMenuItem
+                        onClick={() => {
+                          console.log(`Archive chat: ${chat}`);
+                          // Add archive functionality here
+                        }}
+                        className="flex items-center gap-2"
+                      >
+                        <Archive className="w-4 h-4" />
+                        Archive
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => {
+                          console.log(`Delete chat: ${chat}`);
+                          // Add delete functionality here
+                        }}
+                        className="flex items-center gap-2 text-destructive hover:text-destructive"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                        Delete
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
               ))}
             </div>
           </div>
