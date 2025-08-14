@@ -69,8 +69,17 @@ const Sidebar = ({ onNewChat, onSettingsClick, onChatSelect, activeChatTitle, on
   const savedChats = [
     "Investment Strategy",
     "Budget Planning", 
-    "Retirement Goals"
+    "Retirement Goals",
+    "Emergency Fund Setup",
+    "Tax Planning Guide",
+    "Debt Consolidation",
+    "Stock Market Analysis",
+    "Real Estate Investment"
   ];
+
+  const sidebarChats = savedChats.slice(0, 3);
+  const searchChats = savedChats.slice(0, 6);
+  const remainingChatsCount = savedChats.length - searchChats.length;
 
   return (
     <div className={`${isCollapsed ? 'w-16' : 'w-64'} bg-sidebar h-screen flex flex-col transition-all duration-300 ease-in-out sticky top-0`}>
@@ -171,7 +180,7 @@ const Sidebar = ({ onNewChat, onSettingsClick, onChatSelect, activeChatTitle, on
             </button>
             
             <div className="space-y-1">
-              {savedChats.map((chat) => (
+              {sidebarChats.map((chat) => (
                 <div
                   key={chat}
                   className={`group relative flex items-center w-full p-3 rounded-lg transition-colors hover:bg-sidebar-accent ${
@@ -276,7 +285,7 @@ const Sidebar = ({ onNewChat, onSettingsClick, onChatSelect, activeChatTitle, on
                 <p>Search chats (⌘K)</p>
               </TooltipContent>
             </Tooltip>
-            {savedChats.map((chat) => (
+            {sidebarChats.map((chat) => (
               <Tooltip key={chat}>
                 <TooltipTrigger asChild>
                   <button
@@ -522,7 +531,7 @@ const Sidebar = ({ onNewChat, onSettingsClick, onChatSelect, activeChatTitle, on
             No chats found.
           </CommandEmpty>
           <CommandGroup>
-            {savedChats.map((chat) => (
+            {searchChats.map((chat) => (
               <CommandItem
                 key={chat}
                 onSelect={() => {
@@ -535,6 +544,11 @@ const Sidebar = ({ onNewChat, onSettingsClick, onChatSelect, activeChatTitle, on
                 <span className="text-sm">{chat}</span>
               </CommandItem>
             ))}
+            {remainingChatsCount > 0 && (
+              <div className="px-2 py-2 text-sm text-muted-foreground">
+                +{remainingChatsCount} more chats
+              </div>
+            )}
           </CommandGroup>
         </CommandList>
       </CommandDialog>
