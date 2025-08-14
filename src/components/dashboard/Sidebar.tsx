@@ -196,7 +196,7 @@ const Sidebar = ({ onNewChat, onSettingsClick, onChatSelect, activeChatTitle, on
                         <MoreHorizontal className="w-4 h-4" />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start" side="right" className="w-48">
+                    <DropdownMenuContent align="start" side="right" className="w-48 border-0 shadow-lg">
                       <DropdownMenuItem
                         onClick={() => {
                           console.log(`Share chat: ${chat}`);
