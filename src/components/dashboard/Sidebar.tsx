@@ -192,7 +192,7 @@ const Sidebar = ({ onNewChat, onSettingsClick, onChatSelect, activeChatTitle, on
                         <MoreHorizontal className="w-4 h-4" />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-48">
+                    <DropdownMenuContent align="end" side="right" className="w-48">
                       <DropdownMenuItem
                         onClick={() => {
                           console.log(`Archive chat: ${chat}`);
